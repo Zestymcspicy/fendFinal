@@ -4,18 +4,21 @@ var LFKMap;
 
 class Map extends Component {
   constructor(props) {
-    super(props)
-  this.state = {
-    places : [
-      {name: "The Roost", location: {lat:38.9666393, lng: -95.235518}},
-      {name: "Love Garden Sounds", location: {lat: 38.9684721, lng : -95.23553029999999}}
-    ],
-    markers : []
+    super(props);
+    this.initMap = this.initMap.bind(this);
+    this.showPlaces = this.showPlaces.bind(this);
+    this.setInitialMarkers = this.setInitialMarkers.bind(this);
   }
-}
+
+
+    markers = [];
+
+
 
   async componentDidMount() {
       window.initMap = this.initMap;
+      // window.setInitialMarkers = this.setInitialMarkers;
+      // window.showPlaces = this.showPlaces;
       loadJS("https://maps.googleapis.com/maps/api/js?key=AIzaSyB63D2az3Guib3VGk7Auoie1fyG3lY1SzQ&v=3&callback=initMap")
 }
 
@@ -23,31 +26,34 @@ class Map extends Component {
   initMap = () => {
     LFKMap = new window.google.maps.Map(document.getElementById('LFKMap'), {
       center: {lat: 38.9717, lng: -95.2353},
-         zoom: 15
+         zoom: 16
     });
+    this.setInitialMarkers();
+    this.showPlaces();
   }
 
   setInitialMarkers() {
-    for (var i = 0; i< this.state.places.length; i++) {
-          var position = this.state.places[i].location;
-          var title = this.state.places[i].title;
+    for (var i = 0; i< this.props.places.length; i++) {
+      var position = this.props.places[i].location;
+      var title = this.props.places[i].title;
 
-           var marker = new window.google.maps.Marker({
-             position: position,
-             title: title,
-             animation: window.google.maps.Animation.DROP,
-             id: i
-           });
+      var marker = new window.google.maps.Marker({
+        position: position,
+        title: title,
+        map: window.LFKMap,
+        animation: window.google.maps.Animation.DROP,
+        id: i
+      });
 
-       this.setState({markers: this.state.markers.push(marker)});
-     }
+      this.markers.push(marker)
+    }
   }
 
-  showPlaces() {
+  showPlaces()  {
     var bounds = new window.google.maps.LatLngBounds();
-    for (var i = 0; i < this.state.markers.length; i++) {
-      this.state.markers[i].setMap(LFKMap);
-      bounds.extend(this.state.markers[i].position);
+    for (var i = 0; i < this.markers.length; i++) {
+      this.markers[i].setMap(LFKMap);
+      bounds.extend(this.markers[i].position);
      }
      LFKMap.fitBounds(bounds);
    }
