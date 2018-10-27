@@ -3,6 +3,16 @@ import './App.css';
 import Map from './Map.js'
 import Menu from './Menu.js'
 
+var foursquare = require('react-foursquare')({
+  clientID: 'A01M4GOIYWVQQ3KVZMGJQHB1ASKPDDRY4RWJZTT0SA2DHADQ',
+  clientSecret: 'GOJPCR5SCPPV5ABTCNTRUNRUFPMVN0UJJVOTZZ2M0ADQ0B3D'
+});
+
+var params = {
+  "near": "Lawrence, KS",
+  "query": 'Java Break'
+};
+
 class App extends Component {
   constructor(props) {
     super(props)
@@ -11,29 +21,35 @@ class App extends Component {
        {name: "The Roost", location: {lat:38.9666393, lng: -95.235518}},
        {name: "Love Garden Sounds", location: {lat: 38.9684721, lng : -95.23553029999999}}
      ],
-     placesResp : []
+     items : []
   }
 }
 componentDidMount() {
-  fetch('https://api.foursquare.com/v2/venues/explore?client_id=A01M4GOIYWVQQ3KVZMGJQHB1ASKPDDRY4RWJZTT0SA2DHADQ&client_secret=GOJPCR5SCPPV5ABTCNTRUNRUFPMVN0UJJVOTZZ2M0ADQ0B3D&v=20180323&limit=1&ll=38.9717,-95.2353&query=coffee')
-      .then(resp => {
-        console.log(resp)
-          this.setState({placesResp : resp});
-      })
-      .catch((error) => {
-          console.log(error)
-          })
-
-}
+  foursquare.venues.getVenues(params)
+      .then(res=> {
+        this.setState({ items: res.response.venues });
+      });
+  }
+//   fetch('https://api.foursquare.com/v2/venues/search?client_id=A01M4GOIYWVQQ3KVZMGJQHB1ASKPDDRY4RWJZTT0SA2DHADQ&client_secret=GOJPCR5SCPPV5ABTCNTRUNRUFPMVN0UJJVOTZZ2M0ADQ0B3D&v=20180323&limit=1&near=Lawrence, KS&query=coffee', {
+//       method: 'get',
+//     }).then(response => {
+//         console.log(response)
+//         this.setState({placesResp : resp});
+//       })
+//       .catch((error) => {
+//           console.error(error)
+//           })
+//
+// }
   render() {
     return (
       <div className="App">
         <header className="App-header">
         LFK
         </header>
-        <Menu places={this.state.places}/>
+        <Menu places={this.state.items}/>
           <Map
-          places={this.state.places}
+          places={this.state.items}
         />
 
       </div>
