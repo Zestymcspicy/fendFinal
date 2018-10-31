@@ -5,7 +5,7 @@ var LFKMap;
 class Map extends Component {
   constructor(props) {
     super(props);
-    // this.initMap = this.initMap.bind(this);    
+    this.initMap = this.initMap.bind(this);
   }
 
 
