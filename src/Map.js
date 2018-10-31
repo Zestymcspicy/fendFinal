@@ -5,9 +5,7 @@ var LFKMap;
 class Map extends Component {
   constructor(props) {
     super(props);
-    this.initMap = this.initMap.bind(this);
-    this.showPlaces = this.showPlaces.bind(this);
-    this.setInitialMarkers = this.setInitialMarkers.bind(this);
+    // this.initMap = this.initMap.bind(this);    
   }
 
 
@@ -17,8 +15,6 @@ class Map extends Component {
 
   async componentDidMount() {
       window.initMap = this.initMap;
-      // window.setInitialMarkers = this.setInitialMarkers;
-      // window.showPlaces = this.showPlaces;
       loadJS("https://maps.googleapis.com/maps/api/js?key=AIzaSyB63D2az3Guib3VGk7Auoie1fyG3lY1SzQ&v=3&callback=initMap")
 }
 
@@ -29,7 +25,7 @@ class Map extends Component {
          zoom: 16
     });
     this.setInitialMarkers();
-    this.showPlaces();
+    this.setMapBounds();
   }
 
   setInitialMarkers() {
@@ -49,7 +45,7 @@ class Map extends Component {
     }
   }
 
-  showPlaces()  {
+  setMapBounds()  {
     var bounds = new window.google.maps.LatLngBounds();
     for (var i = 0; i < this.markers.length; i++) {
       this.markers[i].setMap(LFKMap);
