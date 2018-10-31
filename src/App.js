@@ -10,7 +10,8 @@ var foursquare = require('react-foursquare')({
 
 var params = {
   "near": "Lawrence, KS",
-  "query": 'Java Break'
+  "query": 'coffee shops',
+  "radius": 1500
 };
 
 class App extends Component {
@@ -30,17 +31,7 @@ componentDidMount() {
         this.setState({ items: res.response.venues });
       });
   }
-//   fetch('https://api.foursquare.com/v2/venues/search?client_id=A01M4GOIYWVQQ3KVZMGJQHB1ASKPDDRY4RWJZTT0SA2DHADQ&client_secret=GOJPCR5SCPPV5ABTCNTRUNRUFPMVN0UJJVOTZZ2M0ADQ0B3D&v=20180323&limit=1&near=Lawrence, KS&query=coffee', {
-//       method: 'get',
-//     }).then(response => {
-//         console.log(response)
-//         this.setState({placesResp : resp});
-//       })
-//       .catch((error) => {
-//           console.error(error)
-//           })
-//
-// }
+
   render() {
     return (
       <div className="App">
