@@ -25,21 +25,23 @@ class App extends Component {
      items : [],
      myplaces : [],
      mymarkers: [],
-     center: {},
+     center: [],
      zoom: 12
   }
 }
 componentDidMount() {
   foursquare.venues.getVenues(params)
       .then(res=> {
-        const myplaces = res.response;
+        const { myplaces } = res.response;
         console.log (myplaces)
-        const center = myplaces.geocode.feature.geometry.center;
+        const  center  = res.response.geocode.feature.geometry.center;
         const mymarkers = res.response.venues.map( venue => {
           return {
             lat: venue.location.lat,
             lng: venue.location.lng,
-            name: venue.location.name
+            name: venue.location.name,
+            isOpen: false,
+            isVisible: true
           }
         })
         this.setState({mymarkers, myplaces, center})
