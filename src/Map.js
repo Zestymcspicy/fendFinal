@@ -1,77 +1,45 @@
-import React, { Component } from  'react'
+import React, { Component } from 'react'
+import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps"
 
-var LFKMap;
+const MyMapComponent = withScriptjs(
+  withGoogleMap((props) =>
+    <GoogleMap
+      defaultZoom={8}
+      zoom={props.zoom}
+      defaultCenter={{ lat: -34.397, lng: 150.644 }}
+      center={props.center}
+      >
+    {props.mymarkers &&
+      props.mymarkers.filter(marker => marker.isVisible).map((marker,index) =>
+      <Marker key={index}
+      position={{lat:marker.lat, lng:marker.lng}}
+      onClick{...props.handleMarkerClick(marker)}
+      >
+      {marker.isOpen && (
+        <InfoWindow>
+        hello
+      </InfoWindow>
+    )}
+      </Marker>
+  )}
+  </GoogleMap>
+))
+
 
 class Map extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      venues: [],
-      markers: [],
-      center: [],
-      zoom: []
-    };
-  }
-
-
-
-
-
-
-  async componentDidMount() {
-      window.initMap = this.initMap;
-      loadJS("https://maps.googleapis.com/maps/api/js?key=AIzaSyB63D2az3Guib3VGk7Auoie1fyG3lY1SzQ&v=3&callback=initMap")
-}
-
-
-  initMap = () => {
-    LFKMap = new window.google.maps.Map(document.getElementById('LFKMap'), {
-      center: {lat: 38.9717, lng: -95.2353},
-         zoom: 16
-    });
-    this.setInitialMarkers();
-
-  }
-
-  setInitialMarkers() {
-    for (var i = 0; i< this.props.places.length; i++) {
-      var position = this.props.places[i].location;
-      var title = this.props.places[i].title;
-
-      var marker = new window.google.maps.Marker({
-        position: position,
-        title: title,
-        map: window.LFKMap,
-        animation: window.google.maps.Animation.DROP,
-        id: i
-      });
-    }
-    this.setState({markers: this.state.markers.push(marker)})
-    return marker;
-  }
-
-
-
-
 
   render() {
     return (
-      <div className='map-container'>
-      <div id='LFKMap'></div>
-      </div>
-    )
-  }
-}
-
-
-//build the script element to attach the google maps api to
-function loadJS(src) {
-  let ref = window.document.getElementsByTagName('script')[0];
-  let script = window.document.createElement('script');
-  script.src = src;
-  script.async = true;
-  script.defer = true;
-  ref.parentNode.insertBefore(script, ref);
-}
-
+      <div className="my-map-container">
+      <MyMapComponent
+      {...this.props}
+      isMarkerShown
+      googleMapURL="https://maps.googleapis.com/maps/api/js?&key=AIzaSyB63D2az3Guib3VGk7Auoie1fyG3lY1SzQ&v=3"
+      loadingElement={<div style={{ height: `100%`}} />}
+      containerElement={<div style={{ height: `400px`}} />}
+      mapElement={<div style={{ height: `100%` }} />}
+    />
+    </div>
+)
+}}
 export default Map;

@@ -15,19 +15,38 @@ var params = {
 };
 
 class App extends Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
   this.state = {
-    places : [
-       {name: "The Roost", location: {lat:38.9666393, lng: -95.235518}},
-       {name: "Love Garden Sounds", location: {lat: 38.9684721, lng : -95.23553029999999}}
-     ],
-     items : []
+     items : [],
+     myplaces : [],
+     mymarkers: [],
+     center: [],
+     zoom: 14
   }
 }
+
+handleMarkerClick = (marker) => {
+  marker.isOpen = true;
+  this.setState({mymarkers: Object.assign(this.state.mymarkers, marker)})
+};
+
 componentDidMount() {
   foursquare.venues.getVenues(params)
       .then(res=> {
+        const { myplaces } = res.response;
+        console.log (myplaces)
+        const  center  = res.response.geocode.feature.geometry.center;
+        const mymarkers = res.response.venues.map( venue => {
+          return {
+            lat: venue.location.lat,
+            lng: venue.location.lng,
+            name: venue.location.name,
+            isOpen: false,
+            isVisible: true
+          }
+        })
+        this.setState({mymarkers, myplaces, center})
         this.setState({ items: res.response.venues });
       });
   }
@@ -36,11 +55,12 @@ componentDidMount() {
     return (
       <div className="App">
         <header className="App-header">
-        LFK
-        </header>
-        <Menu className="sidebarMenu" places={this.state.items}/>
-          <Map
-          className="mapArea" places={this.state.items}
+          LFK
+          </header>
+          <Menu places={this.state.items}/>
+          <Map className="LFKMap"
+          {...this.state}
+          handleMarkerClick={this.handleMarkerClick}
         />
 
       </div>
