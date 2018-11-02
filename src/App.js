@@ -38,9 +38,9 @@ componentDidMount() {
         <header className="App-header">
         LFK
         </header>
-        <Menu places={this.state.items}/>
+        <Menu className="sidebarMenu" places={this.state.items}/>
           <Map
-          places={this.state.items}
+          className="mapArea" places={this.state.items}
         />
 
       </div>

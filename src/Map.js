@@ -5,11 +5,16 @@ var LFKMap;
 class Map extends Component {
   constructor(props) {
     super(props);
-    this.initMap = this.initMap.bind(this);
+    this.state = {
+      venues: [],
+      markers: [],
+      center: [],
+      zoom: []
+    };
   }
 
 
-    markers = [];
+
 
 
 
@@ -25,7 +30,7 @@ class Map extends Component {
          zoom: 16
     });
     this.setInitialMarkers();
-    this.setMapBounds();
+
   }
 
   setInitialMarkers() {
@@ -40,19 +45,14 @@ class Map extends Component {
         animation: window.google.maps.Animation.DROP,
         id: i
       });
-
-      this.markers.push(marker)
     }
+    this.setState({markers: this.state.markers.push(marker)})
+    return marker;
   }
 
-  setMapBounds()  {
-    var bounds = new window.google.maps.LatLngBounds();
-    for (var i = 0; i < this.markers.length; i++) {
-      this.markers[i].setMap(LFKMap);
-      bounds.extend(this.markers[i].position);
-     }
-     LFKMap.fitBounds(bounds);
-   }
+
+
+
 
   render() {
     return (
