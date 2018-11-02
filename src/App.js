@@ -28,7 +28,7 @@ class App extends Component {
 
 handleMarkerClick = (marker) => {
   marker.isOpen = true;
-  this.setState({mymarkers: Object.assign(this.state.mymarkers, marker)})
+  this.setState({markers: Object.assign(this.state.markers, marker)})
 };
 
 componentDidMount() {
