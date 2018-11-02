@@ -15,20 +15,22 @@ var params = {
 };
 
 class App extends Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
   this.state = {
-    places : [
-       {name: "The Roost", location: {lat:38.9666393, lng: -95.235518}},
-       {name: "Love Garden Sounds", location: {lat: 38.9684721, lng : -95.23553029999999}}
-     ],
      items : [],
      myplaces : [],
      mymarkers: [],
      center: [],
-     zoom: 12
+     zoom: 14
   }
 }
+
+handleMarkerClick = (marker) => {
+  marker.isOpen = true;
+  this.setState({mymarkers: Object.assign(this.state.mymarkers, marker)})
+};
+
 componentDidMount() {
   foursquare.venues.getVenues(params)
       .then(res=> {
@@ -58,6 +60,7 @@ componentDidMount() {
           <Menu places={this.state.items}/>
           <Map className="LFKMap"
           {...this.state}
+          handleMarkerClick={this.handleMarkerClick}
         />
 
       </div>
