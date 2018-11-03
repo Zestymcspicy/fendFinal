@@ -7,7 +7,9 @@ class Menu extends Component {
     return (
       <div className="Menu">
       <ol>
-      {this.props.places.map((item,key) => <li className="Menu-item" key={key}>{item.name}</li>)}
+      {this.props.places.map((item,key) => <li className="Menu-item" key={key}>
+      <button>{item.name}</button>
+      </li>)}
       </ol>
       </div>
     )

@@ -35,10 +35,21 @@
   }
 }
 
-/* .LFKMap {
-  width: 100%;
-  height: 600px;
-} */
+button {
+  background-color: #282c34;
+  color: #41bae2;
+  border: none;
+}
+
+button:hover{
+  cursor: pointer;
+  background-color: #FFFAE0;
+  color: black;
+}
+
+.info-window {
+  z-index: 30;
+}
 
 .my-map-container {
   width:80%;

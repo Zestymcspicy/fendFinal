@@ -60,7 +60,6 @@ componentDidMount() {
     this.closeAllMarkers();
     marker.isOpen = true;
     this.setState({mymarkers: Object.assign(this.state.mymarkers, marker)})
-    const venue = this.state.myplaces.find(venue => venue.id === marker.id);
     let detailParams = {venue_id : marker.id}
     foursquare.venues.getVenue(detailParams)
         .then(response => {
@@ -69,10 +68,11 @@ componentDidMount() {
         details.bestPhoto &&
           this.setState({venueimage : `${details.bestPhoto.prefix}200x200${details.bestPhoto.suffix}`})
         })
-
     }
 
+handleMouseOver = (marker) => {
 
+}
 
   render() {
     return (
@@ -84,6 +84,7 @@ componentDidMount() {
           <Map className="LFKMap"
           {...this.state}
           handleMarkerClick={this.handleMarkerClick}
+          handleMouseOver={this.handleMouseOver}
         />
 
       </div>
