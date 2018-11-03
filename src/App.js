@@ -15,37 +15,64 @@ var params = {
 };
 
 class App extends Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
   this.state = {
-    places : [
-       {name: "The Roost", location: {lat:38.9666393, lng: -95.235518}},
-       {name: "Love Garden Sounds", location: {lat: 38.9684721, lng : -95.23553029999999}}
-     ],
-     items : [],
      myplaces : [],
      mymarkers: [],
      center: [],
-     zoom: 12
+     zoom: 14,
+     presentvenue: [],
+     venueimage : []
   }
 }
+
+
 componentDidMount() {
   foursquare.venues.getVenues(params)
       .then(res=> {
-        const myplaces = res.response;
-        console.log (myplaces)
-        const center = myplaces.geocode.feature.geometry.center;
+        const  myplaces  = res.response.venues;
+        console.log (myplaces);
+        const  center  = res.response.geocode.feature.geometry.center;
         const mymarkers = res.response.venues.map( venue => {
           return {
             lat: venue.location.lat,
             lng: venue.location.lng,
-            name: venue.location.name
+            name: venue.name,
+            isOpen: false,
+            isVisible: true,
+            id: venue.id
           }
         })
         this.setState({mymarkers, myplaces, center})
-        this.setState({ items: res.response.venues });
       });
   }
+
+  closeAllMarkers = () => {
+    const markers = this.state.mymarkers.map(marker => {
+      marker.isOpen = false;
+      return marker;
+    })
+    this.setState({mymarkers: Object.assign(this.state.mymarkers, markers)})
+  }
+
+  handleMarkerClick = (marker) => {
+    this.closeAllMarkers();
+    marker.isOpen = true;
+    this.setState({mymarkers: Object.assign(this.state.mymarkers, marker)})
+    const venue = this.state.myplaces.find(venue => venue.id === marker.id);
+    let detailParams = {venue_id : marker.id}
+    foursquare.venues.getVenue(detailParams)
+        .then(response => {
+        const details = Object.assign(response.response.venue, marker);
+        this.setState({presentvenue : details})
+        details.bestPhoto &&
+          this.setState({venueimage : `${details.bestPhoto.prefix}200x200${details.bestPhoto.suffix}`})
+        })
+
+    }
+
+
 
   render() {
     return (
@@ -53,9 +80,10 @@ componentDidMount() {
         <header className="App-header">
           LFK
           </header>
-          <Menu places={this.state.items}/>
+          <Menu places={this.state.mymarkers}/>
           <Map className="LFKMap"
-          {...this.state} center={this.state.center}
+          {...this.state}
+          handleMarkerClick={this.handleMarkerClick}
         />
 
       </div>
