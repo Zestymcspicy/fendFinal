@@ -9,6 +9,7 @@
   height: 40vmin;
 }
 
+
 .App-header {
   background-color: #282c34;
   min-height: 20vh;
@@ -34,14 +35,14 @@
   }
 }
 
-#LFKMap {
+/* .LFKMap {
   width: 100%;
   height: 600px;
-}
+} */
 
-.map-container {
+.my-map-container {
   width:80%;
-  height:auto;
+  height:800px;
 }
 
 .Menu {
