@@ -18,7 +18,7 @@ handleChange(e) {
           <input type='text' value={query} onChange={this.handleChange}/>
           </div>
           <ol>
-            {this.props.places.map((item,key) => <li className="Menu-item" key={key}>
+            {this.props.places.filter(marker => marker.isVisible).map((item,key) => <li className="Menu-item" key={key}>
             <button>{item.name}</button>
             </li>)}
             </ol>

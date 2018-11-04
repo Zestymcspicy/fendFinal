@@ -72,16 +72,23 @@ componentDidMount() {
     }
 
     handleQueryChange(query) {
+      let newMarkers= [];
       this.setState({query: query})
       if (this.state.query==='') {
-      this.state.mymarkers.forEach(marker =>  {
+      newMarkers = this.state.mymarkers.map(marker =>  {
         marker.isVisible = true
-      })
-    }
-      this.state.mymarkers.forEach( marker =>
-        (query.toLowerCase))
-
-    }
+        return marker})
+    } else {
+      newMarkers = this.state.mymarkers.map( marker => {
+        if (marker.name.toLowerCase().includes(query.toLowerCase())){
+          marker.isVisible = true;
+        } else {
+          marker.isVisible = false;
+        }
+    return marker})
+  }
+  this.setState({mymarkers: newMarkers})
+}
 
     handleMouseOver() {
 
