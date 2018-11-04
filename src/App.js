@@ -23,8 +23,9 @@ class App extends Component {
      center: [],
      zoom: 14,
      presentvenue: [],
-     venueimage : []
+     query: ''
   }
+  this.handleQueryChange = this.handleQueryChange.bind(this)
 }
 
 
@@ -65,22 +66,36 @@ componentDidMount() {
         .then(response => {
         const details = Object.assign(response.response.venue, marker);
         this.setState({presentvenue : details})
-        details.bestPhoto &&
+
           this.setState({venueimage : `${details.bestPhoto.prefix}200x200${details.bestPhoto.suffix}`})
         })
     }
 
-handleMouseOver = (marker) => {
+    handleQueryChange(query) {
+      this.setState({query: query})
+      if (this.state.query==='') {
+      this.state.mymarkers.forEach(marker =>  {
+        marker.isVisible = true
+      })
+    }
+      this.state.mymarkers.forEach( marker =>
+        (query.toLowerCase))
 
-}
+    }
+
+    handleMouseOver() {
+
+    }
+
 
   render() {
+    const query = this.state.query
     return (
       <div className="App">
         <header className="App-header">
           LFK
           </header>
-          <Menu places={this.state.mymarkers}/>
+          <Menu query={query} handleQueryChange={this.handleQueryChange} places={this.state.mymarkers}/>
           <Map className="LFKMap"
           {...this.state}
           handleMarkerClick={this.handleMarkerClick}

@@ -35,7 +35,9 @@
   }
 }
 
-button {
+
+
+button, p {
   background-color: #282c34;
   color: #41bae2;
   border: none;
