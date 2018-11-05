@@ -18,11 +18,15 @@ handleChange(e) {
       <div className="Menu">
         <div>
           <p className="searchbar-header">Search for a place</p>
-          <input type='text' value={query} onChange={this.handleChange}/>
+          <input type='text'
+          value={query}
+          onChange={this.handleChange}/>
           </div>
           <ol>
             {this.props.places.filter(marker => marker.isVisible).map((item,key) =>
-              <li className="Menu-item" key={item.id} onClick={()=> this.props.itemClick(item.id)}>
+              <li className="Menu-item"
+              key={item.id}
+              onClick={()=> this.props.itemClick(item.id)}>
             <button>{item.name}</button>
             </li>)}
             </ol>

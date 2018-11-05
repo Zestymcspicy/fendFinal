@@ -12,7 +12,7 @@ const MyMapComponent = withScriptjs(
     {props.mymarkers && props.mymarkers.filter(marker => marker.isVisible).map((marker,index) => {
 
       return <Marker name={marker.name} key={index} position={{lat:marker.lat, lng:marker.lng}}
-      onClick={()=> props.handleMarkerClick(marker)} onMouseOver={()=> props.handleMouseOver(marker)}>
+      onClick={()=> props.handleMarkerClick(marker)}>
       {marker.isOpen && (
         <InfoWindow className="info-window">
           <React.Fragment>

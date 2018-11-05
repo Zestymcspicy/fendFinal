@@ -99,9 +99,6 @@ componentDidMount() {
     const linkedMarker = this.state.mymarkers.filter(marker=> marker.id===id);
     this.openMarker(linkedMarker[0])
 }
-    handleMouseOver() {
-
-    }
 
 
   render() {
