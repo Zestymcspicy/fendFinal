@@ -17,9 +17,10 @@ const MyMapComponent = withScriptjs(
         <InfoWindow className="info-window">
           <React.Fragment>
             <p>{marker.name}</p>
-            {props.presentvenue.bestPhoto ? (
+            {(props.presentvenue.bestPhoto) ? (
             <img alt={marker.name}
-            src={`${props.presentvenue.bestPhoto.prefix}200x200${props.presentvenue.bestPhoto.suffix}`}/>):
+            src={`${props.presentvenue.bestPhoto.prefix}200x200${props.presentvenue.bestPhoto.suffix}`}/>)
+            :
             (<p>No Image Available</p>)}
             </React.Fragment>
         </InfoWindow>

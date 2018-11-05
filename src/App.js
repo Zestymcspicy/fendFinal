@@ -26,6 +26,7 @@ class App extends Component {
      query: ''
   }
   this.handleQueryChange = this.handleQueryChange.bind(this)
+  this.itemClick =this.itemClick.bind(this)
 }
 
 
@@ -33,7 +34,7 @@ componentDidMount() {
   foursquare.venues.getVenues(params)
       .then(res=> {
         const  myplaces  = res.response.venues;
-        console.log (myplaces);
+
         const  center  = res.response.geocode.feature.geometry.center;
         const mymarkers = res.response.venues.map( venue => {
           return {
@@ -46,6 +47,8 @@ componentDidMount() {
           }
         })
         this.setState({mymarkers, myplaces, center})
+      }).catch(error => {
+        alert(`There was an error of type ${error}`)
       });
   }
 
@@ -58,6 +61,10 @@ componentDidMount() {
   }
 
   handleMarkerClick = (marker) => {
+    this.openMarker(marker);
+}
+
+  openMarker(marker) {
     this.closeAllMarkers();
     marker.isOpen = true;
     this.setState({mymarkers: Object.assign(this.state.mymarkers, marker)})
@@ -66,8 +73,6 @@ componentDidMount() {
         .then(response => {
         const details = Object.assign(response.response.venue, marker);
         this.setState({presentvenue : details})
-
-          this.setState({venueimage : `${details.bestPhoto.prefix}200x200${details.bestPhoto.suffix}`})
         })
     }
 
@@ -90,6 +95,10 @@ componentDidMount() {
   this.setState({mymarkers: newMarkers})
 }
 
+  itemClick (id) {
+    const linkedMarker = this.state.mymarkers.filter(marker=> marker.id===id);
+    this.openMarker(linkedMarker[0])
+}
     handleMouseOver() {
 
     }
@@ -100,9 +109,12 @@ componentDidMount() {
     return (
       <div className="App">
         <header className="App-header">
-          LFK
+          LFKoffee
           </header>
-          <Menu query={query} handleQueryChange={this.handleQueryChange} places={this.state.mymarkers}/>
+          <Menu query={query}
+          handleQueryChange={this.handleQueryChange}
+          itemClick={this.itemClick}
+          places={this.state.mymarkers}/>
           <Map className="LFKMap"
           {...this.state}
           handleMarkerClick={this.handleMarkerClick}

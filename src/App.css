@@ -37,7 +37,7 @@
 
 
 
-button, p {
+button, .searchbar-header {
   background-color: #282c34;
   color: #41bae2;
   border: none;
