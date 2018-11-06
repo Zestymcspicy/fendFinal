@@ -103,9 +103,6 @@ componentDidMount() {
     const query = this.state.query
     return (
       <div className="App">
-        <header className="App-header">
-          LFKoffee
-          </header>
           <Menu query={query}
           handleQueryChange={this.handleQueryChange}
           itemClick={this.itemClick}
