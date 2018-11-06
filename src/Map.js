@@ -10,8 +10,11 @@ const MyMapComponent = withScriptjs(
       center={props.center}
       >
     {props.mymarkers && props.mymarkers.filter(marker => marker.isVisible).map((marker,index) => {
-
-      return <Marker name={marker.name} key={index} position={{lat:marker.lat, lng:marker.lng}}
+      return <Marker
+      name={marker.name}
+      key={index}
+      position={{lat:marker.lat, lng:marker.lng}}
+      animation= {window.google.maps.Animation.DROP}
       onClick={()=> props.handleMarkerClick(marker)}>
       {marker.isOpen && (
         <InfoWindow className="info-window">
