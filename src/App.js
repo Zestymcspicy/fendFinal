@@ -18,7 +18,7 @@ class App extends Component {
   constructor() {
     super()
   this.state = {
-     myplaces : [],
+
      mymarkers: [],
      center: [],
      zoom: 14,
@@ -33,8 +33,6 @@ class App extends Component {
 componentDidMount() {
   foursquare.venues.getVenues(params)
       .then(res=> {
-        const  myplaces  = res.response.venues;
-
         const  center  = res.response.geocode.feature.geometry.center;
         const mymarkers = res.response.venues.map( venue => {
           return {
@@ -46,9 +44,9 @@ componentDidMount() {
             id: venue.id
           }
         })
-        this.setState({mymarkers, myplaces, center})
+        this.setState({mymarkers, center})
       }).catch(error => {
-        alert(`There was an error of type ${error}`)
+        alert(`There was an error of ${error}`)
       });
   }
 

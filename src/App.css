@@ -45,6 +45,9 @@ button, .searchbar-header {
 
 button:hover{
   cursor: pointer;
+}
+
+.open-button {
   background-color: #FFFAE0;
   color: black;
 }

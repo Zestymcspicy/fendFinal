@@ -27,7 +27,9 @@ handleChange(e) {
               <li className="Menu-item"
               key={item.id}
               onClick={()=> this.props.itemClick(item.id)}>
-            <button>{item.name}</button>
+              {(item.isOpen)?
+                <button className="open-button">{item.name}</button>:
+                <button>{item.name}</button>}
             </li>)}
             </ol>
       </div>
