@@ -26,7 +26,7 @@ handleChange(e) {
           value={query}
           onChange={this.handleChange}/>
           </div>
-          <ol>
+          <ul>
             {this.props.places.filter(marker => marker.isVisible).map((item,key) =>
               <li className="Menu-item"
               key={item.id}
@@ -35,7 +35,7 @@ handleChange(e) {
                 <button className="open-button">{item.name}</button>:
                 <button>{item.name}</button>}
             </li>)}
-            </ol>
+            </ul>
       </div>
     )
   }

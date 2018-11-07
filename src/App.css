@@ -29,9 +29,6 @@ button:hover{
   color: black;
 }
 
-.info-window {
-  z-index: 3000;
-}
 
 .my-map-container {
   width:80%;
@@ -46,4 +43,9 @@ button:hover{
 
 .Menu-item {
   color: #41bae2;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
 }
