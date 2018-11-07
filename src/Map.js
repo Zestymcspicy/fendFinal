@@ -46,7 +46,7 @@ class Map extends Component {
       isMarkerShown
       googleMapURL="https://maps.googleapis.com/maps/api/js?&key=AIzaSyB63D2az3Guib3VGk7Auoie1fyG3lY1SzQ&v=3"
       loadingElement={<div style={{ height: `100%`}} />}
-      containerElement={<div style={{ height: `600px`}} />}
+      containerElement={<div style={{ height: `800px`}} />}
       mapElement={<div style={{ height: `100%` }} />}
     />
     </div>
