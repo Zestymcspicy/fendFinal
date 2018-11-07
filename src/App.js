@@ -35,7 +35,9 @@ class App extends Component {
 componentDidMount() {
   foursquare.venues.getVenues(params)
       .then(res=> {
-        const  center  = res.response.geocode.feature.geometry.center;
+        const  centerLat  = res.response.geocode.feature.geometry.center.lat;
+        const  centerLng  = res.response.geocode.feature.geometry.center.lng;
+        const center = {lat: centerLat, lng: centerLng}
         const mymarkers = res.response.venues.map( venue => {
           return {
             lat: venue.location.lat,
