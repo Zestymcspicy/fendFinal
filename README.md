@@ -7,5 +7,6 @@ Built using create-react-app, foursquare API, Google Maps API, react-foursquare,
 
 ## Installation and Usage
 
-.. Clone this repository
-.. run npm install
+  * Clone this repository
+  * run npm install
+  * run npm start
