@@ -31,13 +31,13 @@ button:hover{
 
 
 .my-map-container {
-  width:80%;
+  width:75%;
   height:800px;
 }
 
 .Menu {
-  width: 20%;
-  height: auto;
+  width: 25%;
+  height: 800px;
   background-color: #282c34;
 }
 

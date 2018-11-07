@@ -3,6 +3,7 @@ import './App.css';
 import Map from './Map.js'
 import Menu from './Menu.js'
 
+
 //Set my clientID and clientSecret for react-foursquare
 var foursquare = require('react-foursquare')({
   clientID: 'A01M4GOIYWVQQ3KVZMGJQHB1ASKPDDRY4RWJZTT0SA2DHADQ',
@@ -37,7 +38,7 @@ componentDidMount() {
       .then(res=> {
         const  centerLat  = res.response.geocode.feature.geometry.center.lat;
         const  centerLng  = res.response.geocode.feature.geometry.center.lng;
-        const center = {lat: centerLat, lng: centerLng}
+        const center = {lat:centerLat, lng:centerLng}
         const mymarkers = res.response.venues.map( venue => {
           return {
             lat: venue.location.lat,
@@ -76,6 +77,9 @@ componentDidMount() {
         const details = Object.assign(response.response.venue, marker);
         this.setState({presentvenue : details})
         })
+        .catch(error => {
+        this.setState({presentvenue: {}})
+      })
     }
 //adjusts the list and the markers based on user entry
     handleQueryChange(query) {
