@@ -3,14 +3,16 @@ import './App.css';
 import Map from './Map.js'
 import Menu from './Menu.js'
 
+//Set my clientID and clientSecret for react-foursquare
 var foursquare = require('react-foursquare')({
   clientID: 'A01M4GOIYWVQQ3KVZMGJQHB1ASKPDDRY4RWJZTT0SA2DHADQ',
   clientSecret: 'GOJPCR5SCPPV5ABTCNTRUNRUFPMVN0UJJVOTZZ2M0ADQ0B3D'
 });
 
+//search parameters for react-foursquare
 var params = {
   "near": "Lawrence, KS",
-  "query": 'coffee shops',
+  "query": 'coffee',
   "radius": 1500
 };
 
@@ -29,7 +31,7 @@ class App extends Component {
   this.itemClick =this.itemClick.bind(this)
 }
 
-
+//call to foursquare for data
 componentDidMount() {
   foursquare.venues.getVenues(params)
       .then(res=> {
@@ -61,7 +63,7 @@ componentDidMount() {
   handleMarkerClick = (marker) => {
     this.openMarker(marker);
 }
-
+//openMarker function provides information for the info window and opens the window
   openMarker(marker) {
     this.closeAllMarkers();
     marker.isOpen = true;
@@ -73,7 +75,7 @@ componentDidMount() {
         this.setState({presentvenue : details})
         })
     }
-
+//adjusts the list and the markers based on user entry
     handleQueryChange(query) {
       let newMarkers= [];
       this.setState({query: query})
@@ -92,7 +94,7 @@ componentDidMount() {
   }
   this.setState({mymarkers: newMarkers})
 }
-
+//connects the clicked list item to the marker on the map
   itemClick (id) {
     const linkedMarker = this.state.mymarkers.filter(marker=> marker.id===id);
     this.openMarker(linkedMarker[0])
