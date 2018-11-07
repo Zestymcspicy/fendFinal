@@ -12,7 +12,7 @@ var foursquare = require('react-foursquare')({
 //search parameters for react-foursquare
 var params = {
   "near": "Lawrence, KS",
-  "query": 'coffee',
+  "query": 'coffee shops',
   "radius": 1500
 };
 
