@@ -1,5 +1,6 @@
 {
   "name": "fendfinal",
+  "homepage": "http://halbeckerman.net/lfkoffee",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -29,4 +30,6 @@
   "devDependencies": {
     "react-router": "^4.3.1"
   }
+
+
 }
