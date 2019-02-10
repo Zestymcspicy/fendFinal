@@ -35,6 +35,22 @@ button:hover{
   height:800px;
 }
 
+.hidden-menu-map {
+  animation-name: fullsize;
+  animation-duration: 2s;
+  animation-direction: reverse;
+  animation-fill-mode: forwards;
+  height:800px;
+  position:fixed;
+}
+
+.hidden-menu {
+  animation-name: hide;
+  animation-duration: 2s;
+  animation-direction: alternate;
+  animation-fill-mode: both;
+}
+
 .Menu {
   width: 25%;
   height: auto;
@@ -50,11 +66,43 @@ ul {
   padding: 0;
 }
 
+#hamburger-menu-hidden {
+  z-index: 7;
+  position: absolute;
+  height: 40px;
+  width: 45px;
+  border-radius: 10%;
+  padding-top: 1px;
+  border: 1px solid  #41bae2;
+}
+
+
+
 @media only screen and (max-width: 675px) {
   .Menu {
     width: 35%;
+    position: fixed;
   }
   .my-map-container {
     width: 65%;
+  }
+}
+
+@keyframes hide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes fullsize {
+  from {
+    width: 97%;
+  }
+  to {
+    width: 65%;
+    margin-left: 2%;
   }
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Map from './Map.js'
 import Menu from './Menu.js'
-
+import hamburgerIcon from './hamburger.png'
 
 //Set my clientID and clientSecret for react-foursquare
 var foursquare = require('react-foursquare')({
@@ -21,15 +21,16 @@ class App extends Component {
   constructor() {
     super()
   this.state = {
-
-     mymarkers: [],
-     center: [],
-     zoom: 14,
-     presentvenue: [],
-     query: ''
+    hideSidebar: false,
+    mymarkers: [],
+    center: [],
+    zoom: 14,
+    presentvenue: [],
+    query: ''
   }
   this.handleQueryChange = this.handleQueryChange.bind(this)
   this.itemClick =this.itemClick.bind(this)
+  this.slideMenu = this.slideMenu.bind(this)
 }
 
 //call to foursquare for data
@@ -61,6 +62,12 @@ componentDidMount() {
       return marker;
     })
     this.setState({mymarkers: Object.assign(this.state.mymarkers, markers)})
+  }
+
+  slideMenu() {
+    this.state.hideSidebar?
+    this.setState({hideSidebar : false}):
+    this.setState({hideSidebar : true});
   }
 
   handleMarkerClick = (marker) => {
@@ -111,7 +118,12 @@ componentDidMount() {
     const query = this.state.query
     return (
       <div className="App">
+      <button
+      id='hamburger-menu-hidden'
+      onClick={this.slideMenu}
+      ><img src={hamburgerIcon} alt="hamburger" height="35" width="32"/></button>
           <Menu query={query}
+          hideSidebar={this.state.hideSidebar}
           handleQueryChange={this.handleQueryChange}
           itemClick={this.itemClick}
           places={this.state.mymarkers}/>

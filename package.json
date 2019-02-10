@@ -28,8 +28,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "eslint-config-react-app": "^3.0.6",
     "react-router": "^4.3.1"
   }
-
-
 }

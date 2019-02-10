@@ -13,9 +13,10 @@ handleChange(e) {
 
 
   render () {
+    const menuClass = this.props.hideSidebar?`Menu hidden-menu`:`Menu`;
     const query = this.props.query
     return (
-      <div className="Menu">
+      <div className={menuClass}>
         <div>
         <header>
         <h1>LFKoffee</h1>
