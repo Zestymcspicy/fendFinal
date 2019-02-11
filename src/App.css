@@ -37,16 +37,17 @@ button:hover{
 
 .hidden-menu-map {
   animation-name: fullsize;
-  animation-duration: 2s;
-  animation-direction: reverse;
+  animation-duration: .5s;
+  animation-direction: normal;
   animation-fill-mode: forwards;
   height:800px;
   position:fixed;
+  right: 0;
 }
 
 .hidden-menu {
   animation-name: hide;
-  animation-duration: 2s;
+  animation-duration: .5s;
   animation-direction: alternate;
   animation-fill-mode: both;
 }
@@ -66,25 +67,40 @@ ul {
   padding: 0;
 }
 
-#hamburger-menu-hidden {
+
+#hamburger{
+  display: none;
   z-index: 7;
   position: absolute;
   height: 40px;
   width: 45px;
   border-radius: 10%;
-  padding-top: 1px;
   border: 1px solid  #41bae2;
+  padding-top: 1px;
+}
+
+.visible-menu-hamburger{
+  left: 28%;
+  top: 10%;
+}
+
+.hidden-menu-hamburger {
+  animation-name: burgerslide;
+  animation-duration: .5s;
+  animation-fill-mode: forwards;
+
+  /* left: 3%;
+  top: 9%; */
 }
 
 
 
 @media only screen and (max-width: 675px) {
-  .Menu {
-    width: 35%;
-    position: fixed;
+  h1{
+    font-size: 1em;
   }
-  .my-map-container {
-    width: 65%;
+  #hamburger{
+    display: block;
   }
 }
 
@@ -99,10 +115,20 @@ ul {
 
 @keyframes fullsize {
   from {
-    width: 97%;
+    width: 65%;
   }
   to {
-    width: 65%;
-    margin-left: 2%;
+    width: 100%;
+  }
+}
+
+@keyframes burgerslide {
+  from {
+    left: 28%;
+    top: 10%;
+  }
+  to {
+    left: 3%;
+    top: 9%;
   }
 }

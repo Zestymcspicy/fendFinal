@@ -115,11 +115,13 @@ componentDidMount() {
 
 
   render() {
+    const hamburgerClass = this.state.hideSidebar?`hidden-menu-hamburger`:`visible-menu-hamburger`;
     const query = this.state.query
     return (
       <div className="App">
       <button
-      id='hamburger-menu-hidden'
+      id="hamburger"
+      className={hamburgerClass}
       onClick={this.slideMenu}
       ><img src={hamburgerIcon} alt="hamburger" height="35" width="32"/></button>
           <Menu query={query}
