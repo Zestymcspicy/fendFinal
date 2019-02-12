@@ -55,6 +55,14 @@ componentDidMount() {
       }).catch(error => {
         alert(`There was an error of ${error}`)
       });
+      window.addEventListener("resize", this.resize.bind(this));
+      this.resize();
+  }
+
+  resize() {
+    if(window.innerWidth>675&&this.state.hideSidebar===false) {
+    this.setState({hideSidebar: true})
+  }
   }
 
   closeAllMarkers = () => {
