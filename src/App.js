@@ -23,7 +23,9 @@ class App extends Component {
   this.state = {
     hideSidebar: true,
     mymarkers: [],
-    center: [],
+    // center: {},
+    centerLat: 0,
+    centerLng: 0,
     zoom: 14,
     presentvenue: [],
     query: ''
@@ -37,9 +39,8 @@ class App extends Component {
 componentDidMount() {
   foursquare.venues.getVenues(params)
       .then(res=> {
-        const  centerLat  = res.response.geocode.feature.geometry.center.lat;
-        const  centerLng  = res.response.geocode.feature.geometry.center.lng;
-        const center = {lat:centerLat, lng:centerLng}
+        const  centerLat  = parseFloat(res.response.geocode.feature.geometry.center.lat);
+        const  centerLng  = parseFloat(res.response.geocode.feature.geometry.center.lng);
         const mymarkers = res.response.venues.map( venue => {
           return {
             lat: venue.location.lat,
@@ -50,7 +51,7 @@ componentDidMount() {
             id: venue.id
           }
         })
-        this.setState({mymarkers, center})
+        this.setState({mymarkers, centerLat, centerLng})
       }).catch(error => {
         alert(`There was an error of ${error}`)
       });
