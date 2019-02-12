@@ -21,7 +21,7 @@ class App extends Component {
   constructor() {
     super()
   this.state = {
-    hideSidebar: false,
+    hideSidebar: true,
     mymarkers: [],
     center: [],
     zoom: 14,
@@ -115,15 +115,16 @@ componentDidMount() {
 
 
   render() {
-    const hamburgerClass = this.state.hideSidebar?`hidden-menu-hamburger`:`visible-menu-hamburger`;
     const query = this.state.query
     return (
       <div className="App">
+      <header>
       <button
       id="hamburger"
-      className={hamburgerClass}
       onClick={this.slideMenu}
       ><img src={hamburgerIcon} alt="hamburger" height="35" width="32"/></button>
+      <h1>LFKoffee</h1>
+      </header>
           <Menu query={query}
           hideSidebar={this.state.hideSidebar}
           handleQueryChange={this.handleQueryChange}
@@ -134,8 +135,7 @@ componentDidMount() {
           handleMarkerClick={this.handleMarkerClick}
           handleMouseOver={this.handleMouseOver}
         />
-
-      </div>
+        </div>
     );
   }
 }

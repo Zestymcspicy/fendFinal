@@ -13,15 +13,13 @@ handleChange(e) {
 
 
   render () {
-    const menuClass = this.props.hideSidebar?`Menu hidden-menu`:`Menu`;
+    const menuClass = this.props.hideSidebar?`Menu`:`Menu show-menu`;
     const query = this.props.query
     return (
       <div className={menuClass}>
         <div>
-        <header>
-        <h1>LFKoffee</h1>
+
         <span className="info-span">powered by foursquare</span>
-        </header>
           <p className="searchbar-header">Search for a place</p>
           <input type='text'
           value={query}
