@@ -42,9 +42,6 @@ componentDidMount() {
         console.log(res.response);
         const  centerLat  = parseFloat(res.response.context.currentLocation.feature.geometry.center.lat);
         const  centerLng  = parseFloat(res.response.context.currentLocation.feature.geometry.center.lng);
-        // const  centerLat  = parseFloat(res.response.geocode.feature.geometry.center.lat);
-        // const  centerLng  = parseFloat(res.response.geocode.feature.geometry.center.lng);
-        // const mymarkers = res.response.venues.map( venue => {
         const mymarkers = res.response.group.results.map( x => {
           let venue = x.venue;
           let photo;
@@ -104,7 +101,7 @@ componentDidMount() {
       centerLat: marker.lat,
       centerLng: marker.lng
     })
-    
+
     }
 //adjusts the list and the markers based on user entry
     handleQueryChange(query) {
