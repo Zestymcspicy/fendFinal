@@ -37,18 +37,28 @@ class App extends Component {
 
 //call to foursquare for data
 componentDidMount() {
-  foursquare.venues.getVenues(params)
+  foursquare.venues.recommendations(params)
       .then(res=> {
-        const  centerLat  = parseFloat(res.response.geocode.feature.geometry.center.lat);
-        const  centerLng  = parseFloat(res.response.geocode.feature.geometry.center.lng);
-        const mymarkers = res.response.venues.map( venue => {
+        console.log(res.response);
+        const  centerLat  = parseFloat(res.response.context.currentLocation.feature.geometry.center.lat);
+        const  centerLng  = parseFloat(res.response.context.currentLocation.feature.geometry.center.lng);
+        // const  centerLat  = parseFloat(res.response.geocode.feature.geometry.center.lat);
+        // const  centerLng  = parseFloat(res.response.geocode.feature.geometry.center.lng);
+        // const mymarkers = res.response.venues.map( venue => {
+        const mymarkers = res.response.group.results.map( x => {
+          let venue = x.venue;
+          let photo;
+          x.photo!==undefined?
+            photo = `${x.photo.prefix}200x200${x.photo.suffix}`:
+            photo = undefined;
           return {
             lat: venue.location.lat,
             lng: venue.location.lng,
             name: venue.name,
             isOpen: false,
             isVisible: true,
-            id: venue.id
+            id: venue.id,
+            photo: photo
           }
         })
         this.setState({mymarkers, centerLat, centerLng})
@@ -56,14 +66,21 @@ componentDidMount() {
         alert(`There was an error of ${error}`)
       });
       window.addEventListener("resize", this.resize.bind(this));
-      this.resize();
   }
 
   resize() {
     if(window.innerWidth>675&&this.state.hideSidebar===false) {
     this.setState({hideSidebar: true})
+    }
   }
+
+
+  slideMenu() {
+    this.state.hideSidebar?
+    this.setState({hideSidebar : false}):
+    this.setState({hideSidebar : true});
   }
+
 
   closeAllMarkers = () => {
     const markers = this.state.mymarkers.map(marker => {
@@ -73,11 +90,6 @@ componentDidMount() {
     this.setState({mymarkers: Object.assign(this.state.mymarkers, markers)})
   }
 
-  slideMenu() {
-    this.state.hideSidebar?
-    this.setState({hideSidebar : false}):
-    this.setState({hideSidebar : true});
-  }
 
   handleMarkerClick = (marker) => {
     this.openMarker(marker);
@@ -86,16 +98,22 @@ componentDidMount() {
   openMarker(marker) {
     this.closeAllMarkers();
     marker.isOpen = true;
-    this.setState({mymarkers: Object.assign(this.state.mymarkers, marker)})
-    let detailParams = {venue_id : marker.id}
-    foursquare.venues.getVenue(detailParams)
-        .then(response => {
-        const details = Object.assign(response.response.venue, marker);
-        this.setState({presentvenue : details})
-        })
-        .catch(error => {
-        this.setState({presentvenue: {}})
-      })
+    this.setState({
+      mymarkers: Object.assign(this.state.mymarkers, marker),
+      presentvenue : marker,
+      centerLat: marker.lat,
+      centerLng: marker.lng
+    })
+    // refactored after finding better endpoint
+    // let detailParams = {venue_id : marker.id}
+    // foursquare.venues.getVenue(detailParams)
+    //     .then(response => {
+    //     const details = Object.assign(response.response.venue, marker);
+    //     this.setState({presentvenue : details})
+    //     })
+    //     .catch(error => {
+    //     this.setState({presentvenue: {}})
+    //   })
     }
 //adjusts the list and the markers based on user entry
     handleQueryChange(query) {
