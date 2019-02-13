@@ -104,16 +104,7 @@ componentDidMount() {
       centerLat: marker.lat,
       centerLng: marker.lng
     })
-    // refactored after finding better endpoint
-    // let detailParams = {venue_id : marker.id}
-    // foursquare.venues.getVenue(detailParams)
-    //     .then(response => {
-    //     const details = Object.assign(response.response.venue, marker);
-    //     this.setState({presentvenue : details})
-    //     })
-    //     .catch(error => {
-    //     this.setState({presentvenue: {}})
-    //   })
+    
     }
 //adjusts the list and the markers based on user entry
     handleQueryChange(query) {
