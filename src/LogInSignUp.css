@@ -15,14 +15,15 @@ span{
 }
 
 .close-button {
-  padding-top: 2%;
+  position: absolute;
+  padding-top: 1%;
+  right: 3%;  
 }
 
 
 #login{
   margin-left: 10%;
   margin-right: 10%;
-
   z-index: 9;
   display: flex;
   flex-direction: row;
@@ -31,8 +32,6 @@ span{
   flex-wrap: wrap;
   background-color: #282c34;
   padding-bottom: 10%;
-  margin-right: auto;
-  margin-left:auto;
   width: 80%;
   box-shadow: 10px;
   min-width: 330px;
@@ -43,6 +42,16 @@ input{
   margin-left: 30%;
   margin-right: 30%;
 
+}
+
+.not-verified{
+  color: #ff0006;
+  font-size: 10px;
+}
+
+.verified {
+  color: #24ff16;
+  font-size: 10px;
 }
 
 #login h1{
@@ -57,8 +66,15 @@ input{
     margin-right: 25%;
     padding-bottom: 0;
   }
-  .close-button{
+  /* .close-button{
     position:fixed;
-    right: 25%;
+    right: 21%;
+  } */
+}
+
+@media only screen and (max-width: 400px) {
+  #login {
+    width: 100%;
+    margin:0;
   }
 }
