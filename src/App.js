@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-import Map from './Map.js'
-import Menu from './Menu.js'
-import hamburgerIcon from './hamburger.png'
-
+import Map from './Map.js';
+import Menu from './Menu.js';
+import Header from './Header.js';
+import LogInSignUp from './LogInSignUp';
 //Set my clientID and clientSecret for react-foursquare
 var foursquare = require('react-foursquare')({
   clientID: 'A01M4GOIYWVQQ3KVZMGJQHB1ASKPDDRY4RWJZTT0SA2DHADQ',
@@ -23,13 +23,17 @@ class App extends Component {
   this.state = {
     hideSidebar: true,
     mymarkers: [],
-    // center: {},
+    userName: null,
+    userData: {},
     centerLat: 0,
     centerLng: 0,
     zoom: 14,
     presentvenue: [],
-    query: ''
+    query: '',
+    logInOpen: false,
+    loggedIn: false
   }
+  this.toggleLogInOpen = this.toggleLogInOpen.bind(this)
   this.handleQueryChange = this.handleQueryChange.bind(this)
   this.itemClick =this.itemClick.bind(this)
   this.slideMenu = this.slideMenu.bind(this)
@@ -71,6 +75,14 @@ componentDidMount() {
     }
   }
 
+  toggleLogInOpen() {
+    this.state.logInOpen===true?
+    this.setState({logInOpen : false}):
+    this.setState({
+      logInOpen : true,
+      hideSidebar : true
+    })
+  }
 
   slideMenu() {
     this.state.hideSidebar?
@@ -131,21 +143,27 @@ componentDidMount() {
 
   render() {
     const query = this.state.query
+
+
     return (
       <div className="App">
-      <header>
-      <button
-      id="hamburger"
-      onClick={this.slideMenu}
-      ><img src={hamburgerIcon} alt="hamburger" height="35" width="32"/></button>
-      <h1>LFKoffee</h1>
-      </header>
+      <Header
+      loggedIn={this.state.loggedIn}
+      toggleLogInOpen={this.toggleLogInOpen}
+      slideMenu={this.slideMenu}
+       />
           <Menu query={query}
           hideSidebar={this.state.hideSidebar}
           handleQueryChange={this.handleQueryChange}
           itemClick={this.itemClick}
           places={this.state.mymarkers}/>
-          <Map className="LFKMap"
+          {this.state.logInOpen?
+          <LogInSignUp
+            logInOpen={this.state.logInOpen}
+            toggleLogInOpen={this.toggleLogInOpen}
+          />:<div></div>
+        }
+          <Map
           {...this.state}
           handleMarkerClick={this.handleMarkerClick}
           handleMouseOver={this.handleMouseOver}

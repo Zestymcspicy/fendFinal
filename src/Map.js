@@ -39,7 +39,7 @@ class Map extends Component {
 
 
   render() {
-    const mapClass = this.props.hideSidebar? `my-map-container` : `show-menu-map`;
+    const mapClass = this.props.hideSidebar? `map-or-login` : `show-menu-map`;
     return (
       <div className={mapClass}>
       <MyMapComponent

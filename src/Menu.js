@@ -22,6 +22,7 @@ handleChange(e) {
         <span className="info-span">powered by foursquare</span>
           <p className="searchbar-header">Search for a place</p>
           <input type='text'
+          id='search-input'
           value={query}
           onChange={this.handleChange}/>
           </div>

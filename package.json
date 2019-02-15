@@ -29,6 +29,7 @@
   ],
   "devDependencies": {
     "eslint-config-react-app": "^3.0.6",
+    "firebase": "^5.8.2",
     "react-router": "^4.3.1"
   }
 }

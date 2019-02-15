@@ -1,0 +1,41 @@
+.closed-login{
+  display: none;
+}
+
+
+span{
+  font-size: 1.5em;
+  color: white;
+}
+
+.open-login{
+  order: 3;
+  width: 200px;
+  height: 300px;
+  padding-top: 17%;
+  color: white;
+}
+
+.close-button {
+  padding-left: 90%;
+  padding-top: 5%;
+}
+
+
+#login{
+  z-index: 9;
+  order: 3;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 31%;
+  background-color: #282c34;
+
+}
+
+@media only screen and (min-width: 675px) {
+  #login{
+    width: 50%;
+    height: 50%;
+  }
+}
