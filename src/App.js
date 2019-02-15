@@ -31,7 +31,7 @@ class App extends Component {
     presentvenue: [],
     query: '',
     logInOpen: false,
-    loggedIn: false
+    loggedIn: false,
   }
   this.toggleLogInOpen = this.toggleLogInOpen.bind(this)
   this.handleQueryChange = this.handleQueryChange.bind(this)

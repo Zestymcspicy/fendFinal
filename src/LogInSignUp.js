@@ -7,15 +7,24 @@ class LogInSignUp extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      hasAccount : true,
-      username : "",
+      returningUser : true,
+      email : "",
       password : "",
 
     }
+    this.handleChange = this.handleChange.bind(this);
+    this.toggleNewUserForm = this.toggleNewUserForm.bind(this);
   }
 
 handleChange(e) {
   this.setState({[e.target.name]: e.target.value})
+}
+
+toggleNewUserForm(e) {
+  // e.preventDefault();
+    this.state.returningUser?
+    this.setState({returningUser : false}):
+    this.setState({returningUser : true})
 }
 
 
@@ -27,16 +36,16 @@ handleChange(e) {
       <button
       className="close-button"
       onClick={this.props.toggleLogInOpen}>X</button>
-      {this.state.hasAccount?
+      {this.state.returningUser?
         <div>
           <h1>LogIn</h1>
           <form>
             <input
             type="text"
-            name="username"
-            placeholder="Username"
+            name="email"
+            placeholder="Email"
             onChange={this.handleChange}
-            value={this.state.username}
+            value={this.state.email}
             />
             <input
             type="text"
@@ -45,7 +54,11 @@ handleChange(e) {
             onChange={this.handleChange}
             value={this.state.password}
             />
-            <button type="submit">Submit</button>
+            <button
+            onClick={this.toggleNewUserForm}>
+            New User?
+            </button>
+            <button type="submit">Login</button>
           </form>
         </div>:
         <div>
@@ -53,10 +66,10 @@ handleChange(e) {
           <form submit={this.newUserSubmit}>
             <input
             type="text"
-            name="username"
-            placeholder="Username"
+            name="email"
+            placeholder="E-mail"
             onChange={this.handleChange}
-            value={this.state.newUserName}
+            value={this.state.newEmail}
             />
             <input
             type="text"
@@ -73,6 +86,10 @@ handleChange(e) {
             value={this.state.newPasswordMatch}
             />
             <button type="submit">Submit</button>
+            <button
+            onClick={this.toggleNewUserForm}>
+            Already have an account
+            ?</button>
           </form>
         </div>}
       </div>
