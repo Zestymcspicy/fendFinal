@@ -3,15 +3,22 @@ import React from 'react';
 
 
 export default function LogInButton(props){
-
-
+let name;
+if(props.user) {
+  if(props.user.displayName!==null){
+    name=props.user.displayName
+    } else {
+    name = props.user.email;
+  }
+}
 
   return(
     <div className="login-text">
-    {props.loggedIn?
+    {props.user?
       <div>
-        <span>Hello {this.props.userName}</span>
-        <button>Logout</button>
+        <span className="user-greeting">Hello {name}</span>
+        <button
+          onClick={props.logout}>Logout</button>
       </div>
       :
       <button

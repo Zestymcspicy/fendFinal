@@ -4,6 +4,7 @@ import Map from './Map.js';
 import Menu from './Menu.js';
 import Header from './Header.js';
 import LogInSignUp from './LogInSignUp';
+import { auth } from './firebase.js'
 //Set my clientID and clientSecret for react-foursquare
 var foursquare = require('react-foursquare')({
   clientID: 'A01M4GOIYWVQQ3KVZMGJQHB1ASKPDDRY4RWJZTT0SA2DHADQ',
@@ -23,7 +24,7 @@ class App extends Component {
   this.state = {
     hideSidebar: true,
     mymarkers: [],
-    userName: null,
+    user: null,
     userData: {},
     centerLat: 0,
     centerLng: 0,
@@ -31,19 +32,19 @@ class App extends Component {
     presentvenue: [],
     query: '',
     logInOpen: false,
-    loggedIn: false,
   }
   this.toggleLogInOpen = this.toggleLogInOpen.bind(this)
   this.handleQueryChange = this.handleQueryChange.bind(this)
   this.itemClick =this.itemClick.bind(this)
   this.slideMenu = this.slideMenu.bind(this)
+  this.logout = this.logout.bind(this)
+  this.setUser = this.setUser.bind(this)
 }
 
 //call to foursquare for data
 componentDidMount() {
   foursquare.venues.recommendations(params)
       .then(res=> {
-        console.log(res.response);
         const  centerLat  = parseFloat(res.response.context.currentLocation.feature.geometry.center.lat);
         const  centerLng  = parseFloat(res.response.context.currentLocation.feature.geometry.center.lng);
         const mymarkers = res.response.group.results.map( x => {
@@ -67,6 +68,14 @@ componentDidMount() {
         alert(`There was an error of ${error}`)
       });
       window.addEventListener("resize", this.resize.bind(this));
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          this.setState({
+            user : user,
+            logInOpen : false
+          });          
+        }
+      })
   }
 
   resize() {
@@ -140,6 +149,17 @@ componentDidMount() {
     this.openMarker(linkedMarker[0])
 }
 
+  setUser(user) {
+    this.setState({user});
+  }
+
+
+  logout() {
+    auth.signOut()
+    .then(() => {
+      this.setState({user: null})
+    })
+  }
 
   render() {
     const query = this.state.query
@@ -148,9 +168,10 @@ componentDidMount() {
     return (
       <div className="App">
       <Header
-      loggedIn={this.state.loggedIn}
+      user={this.state.user}
       toggleLogInOpen={this.toggleLogInOpen}
       slideMenu={this.slideMenu}
+      logout={this.logout}
        />
           <Menu query={query}
           hideSidebar={this.state.hideSidebar}
@@ -159,6 +180,7 @@ componentDidMount() {
           places={this.state.mymarkers}/>
           {this.state.logInOpen?
           <LogInSignUp
+            setUser={this.setUser}
             logInOpen={this.state.logInOpen}
             toggleLogInOpen={this.toggleLogInOpen}
           />:<div></div>

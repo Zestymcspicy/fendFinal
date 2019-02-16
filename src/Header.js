@@ -13,7 +13,8 @@ export default function Header (props){
         ><img src={hamburgerIcon} alt="hamburger" height="35" width="32"/></button>
         <h1>LFKoffee</h1>
         <LogInButton
-        loggedIn={props.loggedIn}
+        logout={props.logout}
+        user={props.user}
         toggleLogInOpen={props.toggleLogInOpen}/>
       </header>
 )}

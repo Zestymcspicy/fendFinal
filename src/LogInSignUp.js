@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import firebase from './firebase.js';
-import './LogInSignUp.css'
+import firebase, { auth, provider } from './firebase.js';
+import './LogInSignUp.css';
+import GoogleButtonImage from './google-signin.png';
 
 
 class LogInSignUp extends Component {
@@ -15,9 +16,12 @@ class LogInSignUp extends Component {
       newPasswordMatch : "",
       validNewCreds : "",
     }
+    this.loginWithEmail = this.loginWithEmail.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.toggleNewUserForm = this.toggleNewUserForm.bind(this);
     this.checkNewCreds = this.checkNewCreds.bind(this);
+    this.newUserSubmit = this.newUserSubmit.bind(this);
+    this.googleLogin = this.googleLogin.bind(this);
   }
 
 handleChange(e) {
@@ -35,15 +39,39 @@ emailSpan(text)  {
 
 //password meets specs
 passwordSpan(text) {
-  if(text.length<=8){
+  if(text.length<8){
     return <span className="not-verified">Password must be at least 8 characters</span>
   }
 }
 
-checkNewCreds(e) {
-  e.preventDefault()
+
+
+passwordMatchSpan(text) {
+  if(text !==this.state.newPassword) {
+    return <span className="not-verified">Passwords do not match!</span>
+  }
+}
+
+
+toggleNewUserForm(e) {
+    this.state.returningUser?
+    this.setState({returningUser : false}):
+    this.setState({returningUser : true})
+}
+
+
+
+
+
+validatedThanks() {
+  if(this.state.validNewCreds){
+    return <div className="valid-div"><span>hi larry!</span></div>
+  }
+}
+
+checkNewCreds() {
   if(this.state.newEmail.indexOf("@")!==-1&&this.state.newEmail.lastIndexOf(".")>this.state.newEmail.indexOf("@")) {
-    if(this.state.newPassword.length>=8){
+    if(this.state.newPassword.length>7){
       if(this.state.newPassword===this.state.newPasswordMatch){
         this.setState({validNewCreds:true})
 
@@ -52,35 +80,62 @@ checkNewCreds(e) {
   }
 }
 
-validatedThanks() {
-  if(this.state.validNewCreds){
-  return <div className="valid-div"><span>hi larry!</span></div>
-  }
-}
 
-passwordMatchSpan(text) {
-  if(text !==this.state.newPassword) {
-    return <span className="not-verified">Passwords do not match!</span>
-  }
-}
 
-toggleNewUserForm(e) {
-  // e.preventDefault();
-    this.state.returningUser?
-    this.setState({returningUser : false}):
-    this.setState({returningUser : true})
-}
-
-newUserSubmit(email, password)
-  firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
-
+async newUserSubmit(e) {
   e.preventDefault();
-  console.log(email, password)
+  await this.checkNewCreds();
+  if(this.state.validNewCreds===true){
+    const email = this.state.newEmail;
+    const password = this.state.newPassword;
+    auth.createUserWithEmailAndPassword(email, password).catch(function(error) {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorCode, errorMessage)
+    }).then((result) => {
+      const user = result.user;
+      this.props.toggleLogInOpen();
+      this.props.setUser(user);
+  })
+  }else{
+    alert("oops")
+  }
 }
 
+
+
+loginWithEmail() {
+  const email = this.state.email;
+  const password = this.state.password;
+  firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    error.error(errorCode, errorMessage)
+  }).then((result) => {
+    console.log(result)
+    // const user = result.user;
+    // this.props.toggleLogInOpen();
+    // this.props.setUser(user);
+  })
+}
+
+
+googleLogin() {
+  auth.signInWithPopup(provider)
+  .then((result) => {
+    const user = result.user;
+    this.props.toggleLogInOpen();
+    this.props.setUser(user);
+  })
+}
 
   render() {
-
+    const emailSpanContent = this.emailSpan(this.state.email)
+    const newEmailSpanContent = this.emailSpan(this.state.newEmail)
+    const newPasswordSpanContent = this.passwordSpan(this.state.newPassword)
+    const newPasswordMatchSpanContent = this.passwordMatchSpan(this.state.newPasswordMatch)
+    const thanksContent = this.validatedThanks()
     return(
       <div
       id="login">
@@ -90,7 +145,7 @@ newUserSubmit(email, password)
       {this.state.returningUser?
         <div>
           <h1>LogIn</h1>
-          <form>
+          <form onSubmit={this.loginWithEmail}>
             <input
             type="text"
             name="email"
@@ -98,7 +153,7 @@ newUserSubmit(email, password)
             onChange={this.handleChange}
             value={this.state.email}
             />
-            {this.emailSpan(this.state.email)}
+          {emailSpanContent}
             <input
             type="password"
             name="password"
@@ -106,16 +161,16 @@ newUserSubmit(email, password)
             onChange={this.handleChange}
             value={this.state.password}
             />
-            <button
-            onClick={this.toggleNewUserForm}>
-            New User?
-            </button>
-            <button type="submit">Login</button>
+            <input value="Login" type="submit"/>
           </form>
+          <button
+            onClick={this.toggleNewUserForm}>
+            New User? Sign Up
+          </button>
         </div>:
         <div>
           <h1>SignUp</h1>
-          <form onSubmit={this.newUserSubmit(newEmail.value, newPassword.value)}>
+          <form onSubmit={this.newUserSubmit}>
             <input
             type="text"
             name="newEmail"
@@ -123,8 +178,7 @@ newUserSubmit(email, password)
             onChange={this.handleChange}
             value={this.state.newEmail}
             />
-            {this.emailSpan(this.state.newEmail)}
-
+          {newEmailSpanContent}
             <input
             type="password"
             name="newPassword"
@@ -132,7 +186,7 @@ newUserSubmit(email, password)
             onChange={this.handleChange}
             value={this.state.newPassword}
             />
-            {this.passwordSpan(this.state.newPassword)}
+          {newPasswordSpanContent}
             <input
             type="password"
             name="newPasswordMatch"
@@ -140,10 +194,9 @@ newUserSubmit(email, password)
             onChange={this.handleChange}
             value={this.state.newPasswordMatch}
             />
-            {this.passwordMatchSpan(this.state.newPasswordMatch)}
+          {newPasswordMatchSpanContent}
             <input
             id="new-user-submit-button"
-            onClick={this.checkNewCreds}
             type="submit"
             value="Submit"/>
             <button
@@ -151,7 +204,12 @@ newUserSubmit(email, password)
             Already have an account?</button>
           </form>
         </div>}
-        {this.validatedThanks}
+        {thanksContent}
+        <button
+          className="google-login"
+          onClick={this.googleLogin}>
+          <img src={GoogleButtonImage}
+            alt="Sign-In with Google`"/></button>
       </div>
     )
   }
