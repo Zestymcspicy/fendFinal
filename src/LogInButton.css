@@ -1,0 +1,35 @@
+.user-greeting {
+  color: #41bae2;
+  font-size: 12px;
+  width:100%;
+}
+
+.user-logged-in {
+  text-align: right;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 60%;
+  position: fixed;
+  right: 0;
+  top: 0;
+}
+
+.user-logged-in button{
+  width: 60px;
+  margin-left: auto;
+}
+
+
+@media only screen and (min-width: 675px) {
+  .user-logged-in{
+    width: 100%;
+    text-align: center;
+    position: relative;
+  }
+
+  .user-logged-in button{
+    margin-right: auto;
+    font-size: 14px;
+  }
+}

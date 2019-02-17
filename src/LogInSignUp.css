@@ -17,7 +17,7 @@ span{
 .close-button {
   position: absolute;
   padding-top: 1%;
-  right: 3%;  
+  right: 3%;
 }
 
 
@@ -58,6 +58,10 @@ input{
   margin-top:0;
 }
 
+.google-login{
+  margin: 0 27%;
+}
+
 @media only screen and (min-width: 675px) {
   #login{
     width: 45%;
@@ -66,10 +70,6 @@ input{
     margin-right: 25%;
     padding-bottom: 0;
   }
-  /* .close-button{
-    position:fixed;
-    right: 21%;
-  } */
 }
 
 @media only screen and (max-width: 400px) {

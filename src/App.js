@@ -24,8 +24,9 @@ class App extends Component {
   this.state = {
     hideSidebar: true,
     mymarkers: [],
-    user: null,
-    userData: {},
+    userEmail: null,
+    userId: null,
+    userFavoites: [],
     centerLat: 0,
     centerLng: 0,
     zoom: 14,
@@ -71,9 +72,10 @@ componentDidMount() {
       auth.onAuthStateChanged(user => {
         if (user) {
           this.setState({
-            user : user,
+            userId : user.uid,
+            userEmail : user.email,
             logInOpen : false
-          });          
+          });
         }
       })
   }
@@ -150,14 +152,21 @@ componentDidMount() {
 }
 
   setUser(user) {
-    this.setState({user});
+    this.setState({
+      userEmail: user.email,
+      userId: user.id
+    });
   }
 
 
   logout() {
     auth.signOut()
     .then(() => {
-      this.setState({user: null})
+      this.setState({
+        userId: null,
+        userEmail: null,
+        userFavoites: []
+      })
     })
   }
 
@@ -168,7 +177,7 @@ componentDidMount() {
     return (
       <div className="App">
       <Header
-      user={this.state.user}
+      userEmail={this.state.userEmail}
       toggleLogInOpen={this.toggleLogInOpen}
       slideMenu={this.slideMenu}
       logout={this.logout}
@@ -180,6 +189,7 @@ componentDidMount() {
           places={this.state.mymarkers}/>
           {this.state.logInOpen?
           <LogInSignUp
+            logout={this.logout}
             setUser={this.setUser}
             logInOpen={this.state.logInOpen}
             toggleLogInOpen={this.toggleLogInOpen}

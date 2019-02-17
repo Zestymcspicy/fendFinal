@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import firebase, { auth, provider } from './firebase.js';
+import firebase, { auth, provider, dbAddUser, dbGetFavorites } from './firebase.js';
 import './LogInSignUp.css';
 import GoogleButtonImage from './google-signin.png';
 
@@ -83,6 +83,9 @@ checkNewCreds() {
 
 
 async newUserSubmit(e) {
+  if(auth.currentUser) {
+    this.props.logout()
+  }
   e.preventDefault();
   await this.checkNewCreds();
   if(this.state.validNewCreds===true){
@@ -91,11 +94,15 @@ async newUserSubmit(e) {
     auth.createUserWithEmailAndPassword(email, password).catch(function(error) {
       var errorCode = error.code;
       var errorMessage = error.message;
-      console.log(errorCode, errorMessage)
+      alert(errorCode, errorMessage);
     }).then((result) => {
-      const user = result.user;
+      const user = {
+        email : result.user.email,
+        id: result.user.uid,
+      };
       this.props.toggleLogInOpen();
       this.props.setUser(user);
+      dbAddUser(user.email, user.id);
   })
   }else{
     alert("oops")
@@ -104,27 +111,40 @@ async newUserSubmit(e) {
 
 
 
-loginWithEmail() {
+loginWithEmail(e) {
+  e.preventDefault();
+  if(auth.currentUser) {
+    this.props.logout()
+  }
   const email = this.state.email;
   const password = this.state.password;
-  firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+  auth.signInWithEmailAndPassword(email, password).catch(function(error) {
     // Handle Errors here.
     var errorCode = error.code;
     var errorMessage = error.message;
-    error.error(errorCode, errorMessage)
+    alert(errorCode, errorMessage);
   }).then((result) => {
     console.log(result)
-    // const user = result.user;
-    // this.props.toggleLogInOpen();
-    // this.props.setUser(user);
+    const user = {
+      email : result.user.email,
+      id : result.user.uid
+    };
+    this.props.toggleLogInOpen();
+    this.props.setUser(user);
   })
 }
 
 
 googleLogin() {
+  if(auth.currentUser) {
+    this.props.logout()
+  }
   auth.signInWithPopup(provider)
   .then((result) => {
-    const user = result.user;
+    const user = {
+      email : result.user.email,
+      id : result.user.uid
+    };
     this.props.toggleLogInOpen();
     this.props.setUser(user);
   })

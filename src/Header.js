@@ -14,7 +14,7 @@ export default function Header (props){
         <h1>LFKoffee</h1>
         <LogInButton
         logout={props.logout}
-        user={props.user}
+        userEmail={props.userEmail}
         toggleLogInOpen={props.toggleLogInOpen}/>
       </header>
 )}
