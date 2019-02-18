@@ -4,7 +4,7 @@ import Map from './Map.js';
 import Menu from './Menu.js';
 import Header from './Header.js';
 import LogInSignUp from './LogInSignUp';
-import { auth, dbGetFavorites } from './firebase.js'
+import { auth, db } from './firebase.js'
 //Set my clientID and clientSecret for react-foursquare
 var foursquare = require('react-foursquare')({
   clientID: 'A01M4GOIYWVQQ3KVZMGJQHB1ASKPDDRY4RWJZTT0SA2DHADQ',
@@ -25,7 +25,7 @@ class App extends Component {
     hideSidebar: true,
     mymarkers: [],
     user: {},
-    userFavoites: [],
+    userFavorites: [],
     centerLat: 0,
     centerLng: 0,
     zoom: 14,
@@ -38,7 +38,7 @@ class App extends Component {
   this.itemClick =this.itemClick.bind(this)
   this.slideMenu = this.slideMenu.bind(this)
   this.logout = this.logout.bind(this)
-  this.setUser = this.setUser.bind(this)
+  this.setUserAndFavorites = this.setUserAndFavorites.bind(this)
 }
 
 //call to foursquare for data
@@ -69,11 +69,17 @@ componentDidMount() {
       });
       window.addEventListener("resize", this.resize.bind(this));
       auth.onAuthStateChanged(user => {
+        const thisApp = this;
         if (user) {
-          this.setState({
-            user : user,
-            logInOpen : false
-          });
+          db.collection("users").doc(user.uid)
+            .onSnapshot(function(doc) {
+              thisApp.setState({
+                user : user,
+                logInOpen : false,
+                userFavorites : (doc.data().favorites)
+                // userFavorites : userFavorites
+              });
+            });
         }
       })
   }
@@ -149,10 +155,25 @@ componentDidMount() {
     this.openMarker(linkedMarker[0])
 }
 
-  setUser(user) {
-    const userFavorites = dbGetFavorites(user.uid);
-    this.setState({user, userFavorites});
+setUserAndFavorites(user) {
+  const thisApp = this;
+  const docRef = db.collection('users').doc(user.uid);
+    docRef.get().then(function(doc) {
+      if(doc.exists) {
+        let data = (doc.data())
+        let userFavorites = data.favorites;
+        thisApp.setState({user, userFavorites});
+        } else {
+        thisApp.setState({user})
+        }
+      }).catch(function(error) {
+        console.log(error);
+        thisApp.setState({user})
+      })
   }
+
+
+
 
 
   logout() {
@@ -182,7 +203,7 @@ componentDidMount() {
           {this.state.logInOpen?
           <LogInSignUp
             logout={this.logout}
-            setUser={this.setUser}
+            setUserAndFavorites={this.setUserAndFavorites}
             logInOpen={this.state.logInOpen}
             toggleLogInOpen={this.toggleLogInOpen}
           />:<div></div>

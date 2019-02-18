@@ -1,0 +1,11 @@
+.favorite-button{
+  border-radius: 7%;
+  color: black;
+}
+
+.isFavorite {
+  background-color: lawngreen;
+}
+.isNotFavorite {
+  background-color: #d10726;
+}

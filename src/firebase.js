@@ -10,7 +10,6 @@ require('firebase/firestore')
     messagingSenderId: "976725373485"
   };
   firebase.initializeApp(config);
-var db = firebase.firestore();
 
 
 
@@ -18,33 +17,35 @@ var db = firebase.firestore();
 export const dbAddUser = (email, displayName, id) => {
   const idString = id.toString();
   db.collection('users').doc(idString).set({
+    displayName : displayName,
     email: email,
-    favorites : []
-})
-.then(function(docRef) {
-  console.log("Document written with ID", docRef.id);
-}).catch(function(error) {
-  console.error(error);
-})
+    favorites : [],
+    id: id
+  })
+}
+
+export const dbCheckUser = (id) => {
+  const idString = id.toString();
+  const docRef = db.collection("users").doc(idString);
+  docRef.get().then(function(doc) {
+    if (doc.exists) {
+      return true;
+    } else {
+      return false;
+    }
+  }).catch(function(error) {
+    console.log(error);
+  })
 }
 
 export const dbToggleFavorite = venueId => {
   console.log(venueId);
 }
 
-export const dbGetFavorites = id => {
-    const docRef = db.collection('users').doc(id);
-    docRef.get().then(function(doc) {
-      if(doc.exists) {
-        console.log(doc.data());
-      } else {
-        console.log("no such document!")
-      }
-    }).catch(function(error) {
-      console.log(error);
-    })
-}
 
+
+
+export const db = firebase.firestore();
 export const provider = new firebase.auth.GoogleAuthProvider();
 export const auth = firebase.auth();
 export default firebase;

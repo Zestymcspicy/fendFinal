@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import firebase, { auth, provider, dbAddUser } from './firebase.js';
+import firebase, { auth, provider, dbAddUser, dbCheckUser } from './firebase.js';
 import './LogInSignUp.css';
 import GoogleButtonImage from './google-signin.png';
 
@@ -65,7 +65,11 @@ toggleNewUserForm(e) {
 
 validatedThanks() {
   if(this.state.validNewCreds){
-    return <div className="valid-div"><span>hi larry!</span></div>
+    return(
+      <div className="valid-div">
+        <span>Thank You!</span>
+        <button onClick={this.props.toggleLogInOpen}>OK</button>
+      </div>)
   }
 }
 
@@ -99,7 +103,7 @@ async newUserSubmit(e) {
       const user = result.user;
       dbAddUser(user.email, user.displayName, user.uid)
       this.props.toggleLogInOpen();
-      this.props.setUser(user);
+      this.props.setUserAndFavorites(user);
   })
   }else{
     alert("oops")
@@ -124,7 +128,7 @@ loginWithEmail(e) {
     console.log(result)
     const user = result.user;
     this.props.toggleLogInOpen();
-    this.props.setUser(user);
+    this.props.setUserAndFavorites(user);
   })
 }
 
@@ -136,8 +140,11 @@ googleLogin() {
   auth.signInWithPopup(provider)
   .then((result) => {
     const user = result.user;
+    if(dbCheckUser(user.uid)===false){
+      dbAddUser(user.email, user.displayName, user.uid)
+    }
     this.props.toggleLogInOpen();
-    this.props.setUser(user);
+    this.props.setUserAndFavorites(user);
   })
 }
 
