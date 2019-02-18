@@ -3,18 +3,18 @@ import './LogInButton.css';
 
 
 export default function LogInButton(props){
-let name = props.userEmail;
-// if(props.user) {
-//   if(props.user.displayName!==null){
-//     name=props.user.displayName
-//     } else {
-    // name = props.userEmail;
-  // }
-// }
+let name;
+if(props.user) {
+  if(props.user.displayName!==null){
+    name=props.user.displayName
+    } else {
+    name = props.user.email;
+  }
+}
 
   return(
     <div className="login-text">
-    {props.userEmail?
+    {props.user?
       <div className="user-logged-in">
         <span className="user-greeting">Hello {name}</span>
         <button

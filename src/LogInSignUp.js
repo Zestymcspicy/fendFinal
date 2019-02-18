@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import firebase, { auth, provider, dbAddUser, dbGetFavorites } from './firebase.js';
+import firebase, { auth, provider, dbAddUser } from './firebase.js';
 import './LogInSignUp.css';
 import GoogleButtonImage from './google-signin.png';
 
@@ -96,13 +96,10 @@ async newUserSubmit(e) {
       var errorMessage = error.message;
       alert(errorCode, errorMessage);
     }).then((result) => {
-      const user = {
-        email : result.user.email,
-        id: result.user.uid,
-      };
+      const user = result.user;
+      dbAddUser(user.email, user.displayName, user.uid)
       this.props.toggleLogInOpen();
       this.props.setUser(user);
-      dbAddUser(user.email, user.id);
   })
   }else{
     alert("oops")
@@ -125,10 +122,7 @@ loginWithEmail(e) {
     alert(errorCode, errorMessage);
   }).then((result) => {
     console.log(result)
-    const user = {
-      email : result.user.email,
-      id : result.user.uid
-    };
+    const user = result.user;
     this.props.toggleLogInOpen();
     this.props.setUser(user);
   })
@@ -141,10 +135,7 @@ googleLogin() {
   }
   auth.signInWithPopup(provider)
   .then((result) => {
-    const user = {
-      email : result.user.email,
-      id : result.user.uid
-    };
+    const user = result.user;
     this.props.toggleLogInOpen();
     this.props.setUser(user);
   })

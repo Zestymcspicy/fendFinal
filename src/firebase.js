@@ -16,15 +16,20 @@ var db = firebase.firestore();
 
 
 export const dbAddUser = (email, displayName, id) => {
-db.collection('users').doc(`${id}`).set({
-  email: email,
-  favorites : []
+  const idString = id.toString();
+  db.collection('users').doc(idString).set({
+    email: email,
+    favorites : []
 })
 .then(function(docRef) {
   console.log("Document written with ID", docRef.id);
 }).catch(function(error) {
   console.error(error);
 })
+}
+
+export const dbToggleFavorite = venueId => {
+  console.log(venueId);
 }
 
 export const dbGetFavorites = id => {

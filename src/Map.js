@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps"
+import FavoriteButton from './FavoriteButton.js'
 
 const MyMapComponent = withScriptjs(
   withGoogleMap((props) =>
@@ -18,13 +19,15 @@ const MyMapComponent = withScriptjs(
       onClick={()=> props.handleMarkerClick(marker)}>
       {marker.isOpen && (
         <InfoWindow className="info-window">
-          <React.Fragment>
-            <p>{marker.name}</p>
-            {(props.presentvenue.photo) ? (
-            <img alt={marker.name}
-            src={props.presentvenue.photo}/>)
-            :
-            (<p>No Image Available</p>)}
+            <React.Fragment>
+              <p>{marker.name}</p>
+              {(props.presentvenue.photo) ? (
+                <img alt={marker.name}
+                  src={props.presentvenue.photo}/>)
+                  :
+                  (<p>No Image Available</p>)}
+                <FavoriteButton
+                  markerId={marker.id}/>
             </React.Fragment>
         </InfoWindow>
       )}

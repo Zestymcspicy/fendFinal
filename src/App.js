@@ -4,7 +4,7 @@ import Map from './Map.js';
 import Menu from './Menu.js';
 import Header from './Header.js';
 import LogInSignUp from './LogInSignUp';
-import { auth } from './firebase.js'
+import { auth, dbGetFavorites } from './firebase.js'
 //Set my clientID and clientSecret for react-foursquare
 var foursquare = require('react-foursquare')({
   clientID: 'A01M4GOIYWVQQ3KVZMGJQHB1ASKPDDRY4RWJZTT0SA2DHADQ',
@@ -24,8 +24,7 @@ class App extends Component {
   this.state = {
     hideSidebar: true,
     mymarkers: [],
-    userEmail: null,
-    userId: null,
+    user: {},
     userFavoites: [],
     centerLat: 0,
     centerLng: 0,
@@ -72,8 +71,7 @@ componentDidMount() {
       auth.onAuthStateChanged(user => {
         if (user) {
           this.setState({
-            userId : user.uid,
-            userEmail : user.email,
+            user : user,
             logInOpen : false
           });
         }
@@ -152,21 +150,15 @@ componentDidMount() {
 }
 
   setUser(user) {
-    this.setState({
-      userEmail: user.email,
-      userId: user.id
-    });
+    const userFavorites = dbGetFavorites(user.uid);
+    this.setState({user, userFavorites});
   }
 
 
   logout() {
     auth.signOut()
     .then(() => {
-      this.setState({
-        userId: null,
-        userEmail: null,
-        userFavoites: []
-      })
+      this.setState({user: null})
     })
   }
 
@@ -177,7 +169,7 @@ componentDidMount() {
     return (
       <div className="App">
       <Header
-      userEmail={this.state.userEmail}
+      user={this.state.user}
       toggleLogInOpen={this.toggleLogInOpen}
       slideMenu={this.slideMenu}
       logout={this.logout}
