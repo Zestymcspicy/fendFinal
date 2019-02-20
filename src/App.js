@@ -4,7 +4,7 @@ import Map from './Map.js';
 import Menu from './Menu.js';
 import Header from './Header.js';
 import LogInSignUp from './LogInSignUp';
-import { auth, db } from './firebase.js'
+import { auth, db, dbAddUser } from './firebase.js'
 //Set my clientID and clientSecret for react-foursquare
 var foursquare = require('react-foursquare')({
   clientID: 'A01M4GOIYWVQQ3KVZMGJQHB1ASKPDDRY4RWJZTT0SA2DHADQ',
@@ -24,11 +24,11 @@ class App extends Component {
   this.state = {
     hideSidebar: true,
     mymarkers: [],
-    user: {},
+    user: null,
     userFavorites: [],
     centerLat: 0,
     centerLng: 0,
-    zoom: 14,
+    zoom: 16,
     presentvenue: [],
     query: '',
     logInOpen: false,
@@ -60,9 +60,11 @@ componentDidMount() {
             isOpen: false,
             isVisible: true,
             id: venue.id,
-            photo: photo
+            photo: photo,
+            isFavorite : false
           }
         })
+
         this.setState({mymarkers, centerLat, centerLng})
       }).catch(error => {
         alert(`There was an error of ${error}`)
@@ -70,14 +72,16 @@ componentDidMount() {
       window.addEventListener("resize", this.resize.bind(this));
       auth.onAuthStateChanged(user => {
         const thisApp = this;
-        if (user) {
+        if (user!==null) {
           db.collection("users").doc(user.uid)
             .onSnapshot(function(doc) {
+              if(doc.data()===undefined){
+                dbAddUser(user.email, user.displayName, user.uid)
+              }
+
               thisApp.setState({
                 user : user,
                 logInOpen : false,
-                userFavorites : (doc.data().favorites)
-                // userFavorites : userFavorites
               });
             });
         }
@@ -155,6 +159,19 @@ componentDidMount() {
     this.openMarker(linkedMarker[0])
 }
 
+favoriteMarkers(favoritesArray){
+  let newMarkers = [];
+  let myMarkers = this.state.mymarkers;
+  for (let i = 0; i<myMarkers.length; i++) {
+    for (let j = 0; j<favoritesArray.length; j++){
+      console.log(myMarkers[i].isFavorite = myMarkers[i].id === favoritesArray[j]);
+    }
+    newMarkers.push(myMarkers[i]);
+  }
+  return newMarkers;
+}
+
+
 setUserAndFavorites(user) {
   const thisApp = this;
   const docRef = db.collection('users').doc(user.uid);
@@ -162,7 +179,8 @@ setUserAndFavorites(user) {
       if(doc.exists) {
         let data = (doc.data())
         let userFavorites = data.favorites;
-        thisApp.setState({user, userFavorites});
+        let mymarkers = this.favoriteMarkers(userFavorites)
+        thisApp.setState({user, userFavorites, mymarkers});
         } else {
         thisApp.setState({user})
         }

@@ -125,7 +125,6 @@ loginWithEmail(e) {
     var errorMessage = error.message;
     alert(errorCode, errorMessage);
   }).then((result) => {
-    console.log(result)
     const user = result.user;
     this.props.toggleLogInOpen();
     this.props.setUserAndFavorites(user);
@@ -140,9 +139,10 @@ googleLogin() {
   auth.signInWithPopup(provider)
   .then((result) => {
     const user = result.user;
-    if(dbCheckUser(user.uid)===false){
+    // if(dbCheckUser(user.uid)===false){
+      user.favorites = [];
       dbAddUser(user.email, user.displayName, user.uid)
-    }
+    // }
     this.props.toggleLogInOpen();
     this.props.setUserAndFavorites(user);
   })

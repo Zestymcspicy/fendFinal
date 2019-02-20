@@ -27,7 +27,9 @@ const MyMapComponent = withScriptjs(
                   :
                   (<p>No Image Available</p>)}
                 <FavoriteButton
-                  markerId={marker.id}/>
+                  user={props.user}
+                  markerId={marker.id}
+                  isFavorite={marker.isFavorite}/>
             </React.Fragment>
         </InfoWindow>
       )}
