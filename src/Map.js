@@ -27,6 +27,7 @@ const MyMapComponent = withScriptjs(
                   :
                   (<p>No Image Available</p>)}
                 <FavoriteButton
+                  setNewFavorites={props.setNewFavorites}
                   user={props.user}
                   markerId={marker.id}
                   isFavorite={marker.isFavorite}/>

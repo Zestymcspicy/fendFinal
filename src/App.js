@@ -39,6 +39,7 @@ class App extends Component {
   this.slideMenu = this.slideMenu.bind(this)
   this.logout = this.logout.bind(this)
   this.setUserAndFavorites = this.setUserAndFavorites.bind(this)
+  this.setNewFavorites = this.setNewFavorites.bind(this)
 }
 
 //call to foursquare for data
@@ -171,6 +172,14 @@ favoriteMarkers(favoritesArray){
   return newMarkers;
 }
 
+setNewFavorites(newFavorites) {
+  let newMarkers = this.favoriteMarkers(newFavorites)
+  this.setState({
+    userFavorites : newFavorites,
+    mymarkers : newMarkers
+  });
+}
+
 
 setUserAndFavorites(user) {
   const thisApp = this;
@@ -179,7 +188,7 @@ setUserAndFavorites(user) {
       if(doc.exists) {
         let data = (doc.data())
         let userFavorites = data.favorites;
-        let mymarkers = this.favoriteMarkers(userFavorites)
+        let mymarkers = thisApp.favoriteMarkers(userFavorites)
         thisApp.setState({user, userFavorites, mymarkers});
         } else {
         thisApp.setState({user})
@@ -228,6 +237,7 @@ setUserAndFavorites(user) {
         }
           <Map
           {...this.state}
+          setNewFavorites={this.setNewFavorites}
           handleMarkerClick={this.handleMarkerClick}
           handleMouseOver={this.handleMouseOver}
         />

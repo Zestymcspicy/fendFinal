@@ -1,11 +1,29 @@
-.favorite-button{
+#favorite-button{
   border-radius: 7%;
   color: black;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+
 }
 
 .isNotFavorite {
   background-color: lawngreen;
 }
+
 .isFavorite {
   background-color: #d10726;
+}
+
+.must-be-span {
+  color: black;
+  font-size: .75em;
+  width: 100%;
+}
+
+.button-container {
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
 }
