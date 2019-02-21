@@ -164,13 +164,13 @@ favoriteMarkers(favoritesArray){
   let newMarkers = [];
   let myMarkers = this.state.mymarkers;
   for (let i = 0; i<myMarkers.length; i++) {
-    for (let j = 0; j<favoritesArray.length; j++){
-      console.log(myMarkers[i].isFavorite = myMarkers[i].id === favoritesArray[j]);
+    // for (let j = 0; j<favoritesArray.length; j++){
+      myMarkers[i].isFavorite = favoritesArray.some(x=> x===myMarkers[i].id);
+      newMarkers.push(myMarkers[i]);
     }
-    newMarkers.push(myMarkers[i]);
+    return newMarkers;
   }
-  return newMarkers;
-}
+
 
 setNewFavorites(newFavorites) {
   let newMarkers = this.favoriteMarkers(newFavorites)
@@ -206,7 +206,11 @@ setUserAndFavorites(user) {
   logout() {
     auth.signOut()
     .then(() => {
-      this.setState({user: null})
+      let resetMarkers = this.state.mymarkers.map(x => x.favorite=false);
+      this.setState({
+        user: null,
+        mymarkers: resetMarkers
+      })
     })
   }
 
