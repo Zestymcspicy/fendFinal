@@ -1,5 +1,5 @@
 import React from 'react';
-import { db, dbAddUser } from './firebase.js';
+import { db } from './firebase.js';
 import './FavoriteButton.css';
 
 

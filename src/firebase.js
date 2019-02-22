@@ -35,7 +35,7 @@ export const dbCheckUser = (id) => {
   docRef.get().then(function(doc) {
     doc = doc.data();
     console.log(doc)
-    if (doc.id===undefined) {
+    if (doc.id===undefined||null) {
       return false;
     } else {
       return true;

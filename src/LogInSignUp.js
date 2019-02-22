@@ -139,10 +139,10 @@ googleLogin() {
   auth.signInWithPopup(provider)
   .then((result) => {
     const user = result.user;
-    // if(dbCheckUser(user.uid)===false){
+    if(dbCheckUser(user.uid)===false){
       user.favorites = [];
       dbAddUser(user.email, user.displayName, user.uid)
-    // }
+    }
     this.props.toggleLogInOpen();
     this.props.setUserAndFavorites(user);
   })
