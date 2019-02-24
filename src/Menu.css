@@ -1,0 +1,73 @@
+.info-span {
+  color: white;
+  font-size: 12px;
+}
+
+
+button, .searchbar-header {
+  background-color: #282c34;
+  color: #41bae2;
+  border: none;
+}
+
+button:hover{
+  cursor: pointer;
+}
+
+.open-button {
+  background-color: #FFFAE0;
+  color: black;
+}
+
+.show-menu {
+  animation-name: show;
+  animation-duration: .5s;
+  animation-direction: alternate;
+  animation-fill-mode: both;
+}
+
+.Menu {
+  width: 25%;
+  height: auto;
+  background-color: #282c34;
+  order: 2;
+}
+
+.Menu-item {
+  color: #41bae2;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+
+#search-input {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media only screen and (max-width: 675px) {
+
+  #search-input{
+    width: 90%;
+  }
+
+  .Menu {
+    order: 2;
+    margin-top: 17%;
+    width: 35%;
+    position: fixed;
+    left: -35%;
+  }
+}
+
+@keyframes show {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%)
+  }
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { db } from './firebase.js';
+import { db, dbAddUser } from './firebase.js';
 import './FavoriteButton.css';
 
 
@@ -8,17 +8,25 @@ export default function FavoriteButton(props){
 const dbToggleFavorite = (id) => {
   if (props.user!==null) {
     db.collection("users").doc(props.user.uid).get().then(function (doc) {
+
       doc = doc.data()
-      let newFavorites = [];
-      let newDoc = doc;
-      if(doc.favorites.some(x => x===id)) {
-        newFavorites = doc.favorites.filter(x=> x!==id);
-      } else {
-        newFavorites = [...newDoc.favorites, id];
-      }
-      newDoc.favorites = newFavorites;
-      props.setNewFavorites(newFavorites);
-      db.collection("users").doc(props.user.uid).set(newDoc)
+      console.log(doc)
+      if (doc===undefined) {
+        dbAddUser(props.user)
+        // db.collection("users").doc(props.user.uid).get().then(function (doc) {
+        //   doc = doc.data()
+        // })
+        }
+      // let newFavorites = [];
+      // let newDoc = doc;
+      // if(doc.favorites.some(x => x===id)) {
+      //   newFavorites = doc.favorites.filter(x=> x!==id);
+      // } else {
+      //   newFavorites = [...newDoc.favorites, id];
+      // }
+      // newDoc.favorites = newFavorites;
+      // props.setNewFavorites(newFavorites);
+      // db.collection("users").doc(props.user.uid).set(newDoc)
       })
     }
 }

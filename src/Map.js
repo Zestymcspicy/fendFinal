@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps"
 import FavoriteButton from './FavoriteButton.js'
+import './Map.css'
 
 const MyMapComponent = withScriptjs(
   withGoogleMap((props) =>
@@ -47,7 +48,7 @@ class Map extends Component {
 
 
   render() {
-    const mapClass = this.props.hideSidebar? `map-or-login` : `show-menu-map`;
+    const mapClass = this.props.hideSidebar? `map` : `show-menu-map`;
     return (
       <div className={mapClass}>
       <MyMapComponent

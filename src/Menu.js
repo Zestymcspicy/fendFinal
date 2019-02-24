@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import './Menu.css'
 
 class Menu extends Component {
   constructor(props) {
@@ -14,18 +14,20 @@ handleChange(e) {
 
   render () {
     const menuClass = this.props.hideSidebar?`Menu`:`Menu show-menu`;
-    const query = this.props.query
+    const query = this.props.query;
+    const userFavoritesDisplay = this.props.userFavorites.length>0?{width:'100%'}:{display:'none'};
     return (
       <div className={menuClass}>
         <div>
 
         <span className="info-span">powered by foursquare</span>
-        {(this.props.user!==null)?
-          <button
+
+            <button
+            style={userFavoritesDisplay}
             onClick={this.props.filterFavorites}>
             Filter Favorites
-          </button>:""        
-        }
+          </button>
+
           <p className="searchbar-header">Search for a place</p>
           <input type='text'
           id='search-input'

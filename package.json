@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "global": "^4.3.2",
     "google-map-react": "^1.0.9",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
@@ -29,7 +30,7 @@
   ],
   "devDependencies": {
     "eslint-config-react-app": "^3.0.6",
-    "firebase": "^5.8.2",
+    "firebase": "^5.8.4",
     "react-router": "^4.3.1"
   }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import hamburgerIcon from './hamburger.png'
 import LogInButton from './LogInButton'
+import './Header.css'
 
 
 export default function Header (props){

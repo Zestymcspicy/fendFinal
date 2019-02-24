@@ -101,7 +101,7 @@ async newUserSubmit(e) {
       alert(errorCode, errorMessage);
     }).then((result) => {
       const user = result.user;
-      dbAddUser(user.email, user.displayName, user.uid)
+      dbAddUser(user)
       this.props.toggleLogInOpen();
       this.props.setUserAndFavorites(user);
   })
@@ -141,7 +141,7 @@ googleLogin() {
     const user = result.user;
     if(dbCheckUser(user.uid)===false){
       user.favorites = [];
-      dbAddUser(user.email, user.displayName, user.uid)
+      dbAddUser(user)
     }
     this.props.toggleLogInOpen();
     this.props.setUserAndFavorites(user);

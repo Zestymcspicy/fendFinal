@@ -79,7 +79,7 @@ componentDidMount() {
           // db.collection("users").doc(user.uid)
           //   .onSnapshot(function(doc) {
           //     if(doc.data()===undefined){
-          //       dbAddUser(user.email, user.displayName, user.uid)
+          //       dbAddUser(user)
           //     }
           //
           //     thisApp.setState({
@@ -255,6 +255,7 @@ setUserAndFavorites(user) {
       logout={this.logout}
        />
           <Menu query={query}
+            userFavorites={this.state.userFavorites}
             filterFavorites={this.filterFavorites}
             hideSidebar={this.state.hideSidebar}
             handleQueryChange={this.handleQueryChange}
