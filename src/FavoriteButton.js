@@ -12,21 +12,22 @@ const dbToggleFavorite = (id) => {
       doc = doc.data()
       console.log(doc)
       if (doc===undefined) {
-        dbAddUser(props.user)
-        // db.collection("users").doc(props.user.uid).get().then(function (doc) {
-        //   doc = doc.data()
-        // })
+        setTimeout(dbAddUser(props.user), 1500)
+        db.collection("users").doc(props.user.uid).get().then(function (doc) {
+          doc = doc.data()
+          console.log(doc)
+        })
         }
-      // let newFavorites = [];
-      // let newDoc = doc;
-      // if(doc.favorites.some(x => x===id)) {
-      //   newFavorites = doc.favorites.filter(x=> x!==id);
-      // } else {
-      //   newFavorites = [...newDoc.favorites, id];
-      // }
-      // newDoc.favorites = newFavorites;
-      // props.setNewFavorites(newFavorites);
-      // db.collection("users").doc(props.user.uid).set(newDoc)
+      let newFavorites = [];
+      let newDoc = doc;
+      if(doc.favorites.some(x => x===id)) {
+        newFavorites = doc.favorites.filter(x=> x!==id);
+      } else {
+        newFavorites = [...newDoc.favorites, id];
+      }
+      newDoc.favorites = newFavorites;
+      props.setNewFavorites(newFavorites);
+      db.collection("users").doc(props.user.uid).set(newDoc)
       })
     }
 }

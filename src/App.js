@@ -230,9 +230,10 @@ setUserAndFavorites(user) {
 
 
   logout() {
-      let resetMarkers = this.state.mymarkers.map(x => {
-        x.isFavorite=false
-        return x;
+      let resetMarkers = this.state.mymarkers.map(marker => {
+        marker.isFavorite = false;
+        marker.isVisible = true;
+        return marker;
       });
       this.setState({
         user: null,
