@@ -41,7 +41,9 @@ const MyMapComponent = withScriptjs(
 
 class Map extends Component {
 
-
+// componentDidMount(){
+//   this.props.setNewFavorites()
+// }
 
 
   render() {

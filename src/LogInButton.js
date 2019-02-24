@@ -18,7 +18,9 @@ if(props.user) {
       <div className="user-logged-in">
         <span className="user-greeting">Hello {name}</span>
         <button
-          onClick={props.logout}>Logout</button>
+          onClick={props.logout}>
+          Logout
+        </button>        
       </div>
       :
       <button

@@ -20,6 +20,12 @@ handleChange(e) {
         <div>
 
         <span className="info-span">powered by foursquare</span>
+        {(this.props.user!==null)?
+          <button
+            onClick={this.props.filterFavorites}>
+            Filter Favorites
+          </button>:""        
+        }
           <p className="searchbar-header">Search for a place</p>
           <input type='text'
           id='search-input'

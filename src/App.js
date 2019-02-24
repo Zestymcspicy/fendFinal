@@ -31,8 +31,10 @@ class App extends Component {
     zoom: 16,
     presentvenue: [],
     query: '',
+    favoritesFiltered: false,
     logInOpen: false,
   }
+  this.filterFavorites = this.filterFavorites.bind(this)
   this.toggleLogInOpen = this.toggleLogInOpen.bind(this)
   this.handleQueryChange = this.handleQueryChange.bind(this)
   this.itemClick =this.itemClick.bind(this)
@@ -74,17 +76,18 @@ componentDidMount() {
       auth.onAuthStateChanged(user => {
         const thisApp = this;
         if (user!==null) {
-          db.collection("users").doc(user.uid)
-            .onSnapshot(function(doc) {
-              if(doc.data()===undefined){
-                dbAddUser(user.email, user.displayName, user.uid)
-              }
-
-              thisApp.setState({
-                user : user,
-                logInOpen : false,
-              });
-            });
+          // db.collection("users").doc(user.uid)
+          //   .onSnapshot(function(doc) {
+          //     if(doc.data()===undefined){
+          //       dbAddUser(user.email, user.displayName, user.uid)
+          //     }
+          //
+          //     thisApp.setState({
+          //       user : user,
+          //       logInOpen : false,
+          //     });
+            // });
+            thisApp.setUserAndFavorites(user)
         }
       })
   }
@@ -109,6 +112,7 @@ componentDidMount() {
     this.setState({hideSidebar : false}):
     this.setState({hideSidebar : true});
   }
+
 
 
   closeAllMarkers = () => {
@@ -179,6 +183,32 @@ setNewFavorites(newFavorites) {
   });
 }
 
+filterFavorites = () => {
+  if(this.state.favoritesFiltered===false){
+    let newMarkers = this.state.mymarkers.map( marker => {
+      if(marker.isFavorite===true) {
+        marker.isVisible=true;
+        return marker;
+      }else{
+        marker.isVisible=false;
+        return marker;
+      }
+    })
+    this.setState({
+      mymarkers: Object.assign(this.state.mymarkers, newMarkers),
+      favoritesFiltered: true
+    });
+  } else {
+    let newMarkers = this.state.mymarkers.map( marker => {
+      marker.isVisible = true;
+      return marker;
+    })
+    this.setState({
+      mymarkers: Object.assign(this.state.mymarkers, newMarkers),
+      favoritesFiltered: false
+    })
+  }
+}
 
 setUserAndFavorites(user) {
   const thisApp = this;
@@ -199,9 +229,6 @@ setUserAndFavorites(user) {
   }
 
 
-
-
-
   logout() {
       let resetMarkers = this.state.mymarkers.map(x => {
         x.isFavorite=false
@@ -213,7 +240,6 @@ setUserAndFavorites(user) {
         userFavorites : []
       })
       auth.signOut()
-
   }
 
   render() {
@@ -229,10 +255,11 @@ setUserAndFavorites(user) {
       logout={this.logout}
        />
           <Menu query={query}
-          hideSidebar={this.state.hideSidebar}
-          handleQueryChange={this.handleQueryChange}
-          itemClick={this.itemClick}
-          places={this.state.mymarkers}/>
+            filterFavorites={this.filterFavorites}
+            hideSidebar={this.state.hideSidebar}
+            handleQueryChange={this.handleQueryChange}
+            itemClick={this.itemClick}
+            places={this.state.mymarkers}/>
           {this.state.logInOpen?
           <LogInSignUp
             logout={this.logout}
