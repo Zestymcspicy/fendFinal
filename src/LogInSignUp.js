@@ -14,7 +14,7 @@ class LogInSignUp extends Component {
       newEmail : "",
       newPassword : "",
       newPasswordMatch : "",
-      validNewCreds : "",
+      validNewCreds : false,
     }
     this.loginWithEmail = this.loginWithEmail.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -102,7 +102,7 @@ async newUserSubmit(e) {
     }).then((result) => {
       const user = result.user;
       dbAddUser(user)
-      this.props.toggleLogInOpen();
+      // this.props.toggleLogInOpen();
       this.props.setUserAndFavorites(user);
   })
   }else{

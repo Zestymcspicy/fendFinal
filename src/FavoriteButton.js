@@ -10,12 +10,10 @@ const dbToggleFavorite = (id) => {
     db.collection("users").doc(props.user.uid).get().then(function (doc) {
 
       doc = doc.data()
-      console.log(doc)
       if (doc===undefined) {
         setTimeout(dbAddUser(props.user), 1500)
         db.collection("users").doc(props.user.uid).get().then(function (doc) {
           doc = doc.data()
-          console.log(doc)
         })
         }
       let newFavorites = [];
