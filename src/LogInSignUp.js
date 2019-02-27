@@ -96,9 +96,15 @@ async newUserSubmit(e) {
     const email = this.state.newEmail;
     const password = this.state.newPassword;
     auth.createUserWithEmailAndPassword(email, password).catch(function(error) {
-      var errorCode = error.code;
       var errorMessage = error.message;
-      alert(errorCode, errorMessage);
+      var errorCode = error.code;
+      switch (errorCode) {
+        case "auth/email-already-in-use":
+        alert("youkindadidthisright");
+        break;
+        default:
+        alert(errorMessage);
+      }
     }).then((result) => {
       const user = result.user;
       dbAddUser(user)
@@ -138,8 +144,11 @@ googleLogin() {
   }
   auth.signInWithPopup(provider)
   .then((result) => {
+    console.log(result)
     const user = result.user;
-    if(dbCheckUser(user.uid)===false){
+    const userPresent = dbCheckUser(user)
+    console.log(dbCheckUser(user))
+    if(userPresent===false){
       user.favorites = [];
       dbAddUser(user)
     }

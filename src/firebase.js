@@ -15,7 +15,6 @@ require('firebase/firestore')
 
 
 export const dbAddUser = (user) => {
-  // if(dbCheckUser(id)===false) {
   let displayName;
   const idString= user.uid.toString();
   (user.displayName===undefined) ?
@@ -26,20 +25,17 @@ export const dbAddUser = (user) => {
     email: user.email,
     favorites : [],
     id: user.uid
-  }).then(res => {
-    console.log(res)
   })
 }
 // }
 
-export const dbCheckUser = (id) => {
-  const idString = id.toString();
+export const dbCheckUser = (user) => {
+  const idString = user.uid.toString();
   const docRef = db.collection("users").doc(idString);
   docRef.get().then(function(doc) {
     doc = doc.data();
-    console.log(doc)
     if (doc===undefined||null) {
-      return false;
+      dbAddUser(user);
     } else {
       return true;
     }

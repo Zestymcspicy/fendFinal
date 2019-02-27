@@ -1,5 +1,5 @@
 import React from 'react';
-import { db, dbAddUser } from './firebase.js';
+import { db, dbAddUser, dbCheckUser } from './firebase.js';
 import './FavoriteButton.css';
 
 
@@ -7,15 +7,15 @@ export default function FavoriteButton(props){
 
 const dbToggleFavorite = (id) => {
   if (props.user!==null) {
+    dbCheckUser(props.user);
     db.collection("users").doc(props.user.uid).get().then(function (doc) {
 
       doc = doc.data()
       if (doc===undefined) {
-        setTimeout(dbAddUser(props.user), 1500)
-        db.collection("users").doc(props.user.uid).get().then(function (doc) {
-          doc = doc.data()
-        })
+        alert("There seems to be an error, try again in a moment.")
+        return
         }
+
       let newFavorites = [];
       let newDoc = doc;
       if(doc.favorites.some(x => x===id)) {
