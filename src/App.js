@@ -76,17 +76,7 @@ componentDidMount() {
       auth.onAuthStateChanged(user => {
         const thisApp = this;
         if (user!==null) {
-          // db.collection("users").doc(user.uid)
-          //   .onSnapshot(function(doc) {
-          //     if(doc.data()===undefined){
-          //       dbAddUser(user)
-          //     }
-          //
-          //     thisApp.setState({
-          //       user : user,
-          //       logInOpen : false,
-          //     });
-            // });
+
             thisApp.setUserAndFavorites(user)
         }
       })
