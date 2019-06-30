@@ -131,9 +131,13 @@ loginWithEmail(e) {
     var errorMessage = error.message;
     alert(errorCode, errorMessage);
   }).then((result) => {
-    const user = result.user;
-    this.props.toggleLogInOpen();
-    this.props.setUserAndFavorites(user);
+    if(!result){
+      return
+    } else {
+      const user = result.user;
+      this.props.toggleLogInOpen();
+      this.props.setUserAndFavorites(user);
+    }
   })
 }
 
